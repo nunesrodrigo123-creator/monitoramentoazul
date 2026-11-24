@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Monitoramento | Azul Logística</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap">
+<style>
+:root{--navy:#001F45;--navy2:#032C5E;--navy3:#00142E;--line:#1d4a80;--blue:#2BA3DC;--ice:#CFEAF8;--white:#fff;--ok:#2ECC71;--warn:#FFC933;--bad:#FF5A5F;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--navy);overflow:hidden;font-family:'Montserrat','Segoe UI',Arial,sans-serif;color:var(--white)}
+body{display:flex}
+aside{width:240px;background:var(--navy3);padding:24px 16px;display:flex;flex-direction:column;gap:8px;border-right:2px solid var(--line);flex-shrink:0;padding-top:max(24px,env(safe-area-inset-top))}
+aside .lo{display:flex;align-items:baseline;gap:8px;margin-bottom:22px;padding:0 8px}
+aside .lo b{font-size:34px;font-weight:800;color:var(--blue);letter-spacing:-1px}
+aside .lo span{font-size:16px;font-weight:700;color:var(--blue)}
+aside a,aside button{display:block;width:100%;text-align:left;padding:14px 16px;border-radius:12px;color:var(--ice);text-decoration:none;font:700 16px/1.2 inherit;font-family:inherit;background:none;border:0;cursor:pointer}
+aside a.on{background:var(--blue);color:var(--navy)}
+aside a:hover:not(.on),aside button:hover{background:var(--navy2)}
+aside a:focus-visible,aside button:focus-visible,.edit button:focus-visible,.edit input:focus-visible,textarea:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+aside .sp{flex:1}
+#main{flex:1;min-width:0;position:relative}
+#vTv,#vEd{position:absolute;inset:0}
+#vTv{overflow-y:auto;overflow-x:hidden}#pgw{margin:0 auto;position:relative}#pages{width:1920px;transform-origin:0 0}
+#vEd{overflow:auto;padding:0 28px 60px}
+body.tv aside{display:none}
+#exitTv{display:none;position:fixed;left:8px;bottom:8px;z-index:9;width:26px;height:26px;padding:0;background:transparent;color:var(--ice);border:1px solid var(--line);border-radius:50%;font:700 12px/1 inherit;font-family:inherit;cursor:pointer;opacity:.12}
+#exitTv:hover,#exitTv:focus-visible{opacity:1}body.tv #exitTv{display:block}
+.hide{display:none!important}
+#fl{position:absolute;right:16px;bottom:12px;z-index:6;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+#flb{background:var(--navy3);color:var(--ice);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font:700 13px inherit;font-family:inherit;cursor:pointer;opacity:.4}
+#flb:hover,#flb:focus-visible,#flb.act{opacity:1}
+#flp{background:var(--navy3);border:2px solid var(--line);border-radius:14px;padding:14px;width:min(440px,calc(100vw - 32px))}
+#flg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#flg label,.ck{font-size:12px;font-weight:700;color:var(--ice);display:flex;flex-direction:column;gap:4px}
+#flg select{font:600 14px inherit;font-family:inherit;background:var(--navy);color:var(--white);border:2px solid var(--line);border-radius:8px;padding:7px;width:100%}
+.fa{display:flex;justify-content:space-between;align-items:center;margin-top:12px}.ck{flex-direction:row;align-items:center;gap:8px}
+.fa button{font:700 13px inherit;font-family:inherit;background:var(--navy2);color:var(--ice);border:2px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer}
+/* painel TV */
+.pg{width:1920px;height:1080px;padding:32px 48px;display:flex;flex-direction:column;gap:22px}
+header{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:20px}
+.az{font-size:68px;font-weight:800;color:var(--blue);letter-spacing:-2px;line-height:1}
+.br{width:88px;height:88px;flex-shrink:0;display:block}aside .br{width:30px;height:30px;align-self:center}
+.lg{font-size:40px;font-weight:700;color:var(--blue);padding-left:20px;border-left:3px solid var(--blue);line-height:1.1}
+.title{text-align:center}.title b{display:block;font-size:38px;font-weight:800}.title span{font-size:22px;color:var(--ice)}
+.clock{text-align:right}.clock b{display:block;font-size:58px;font-weight:800;line-height:1}.clock span{font-size:21px;color:var(--ice)}
+.tot{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}main.g4{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;min-height:0}.big{font-size:84px;font-weight:800;line-height:1;margin:6px 0 16px}.big.ok{color:var(--ok)}.big.warn{color:var(--warn)}.big.bad{color:var(--bad)}
+.card{background:var(--navy2);border-radius:18px;padding:18px 20px;border-top:12px solid var(--blue);min-width:0}
+.card.ok{border-color:var(--ok)}.card.warn{border-color:var(--warn)}.card.bad{border-color:var(--bad)}
+.card h3{font-size:21px;font-weight:700;color:var(--ice);white-space:nowrap}
+.card .v{font-size:68px;font-weight:800;line-height:1.05;margin-top:2px;font-variant-numeric:tabular-nums}
+.card.ok .v{color:var(--ok)}.card.warn .v{color:var(--warn)}.card.bad .v{color:var(--bad)}
+.card p{font-size:19px;color:var(--ice);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+main.g{flex:1;display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:20px;min-height:0}
+.panel{background:var(--navy2);border-radius:18px;padding:18px 24px;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden}
+.panel h2{font-size:28px;font-weight:800}.panel .sub{font-size:20px;color:var(--ice);margin:2px 0 14px}
+.rows{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between;gap:6px;overflow:hidden}.r{min-width:0}
+.r .top{display:flex;justify-content:space-between;align-items:baseline}
+.r .nm{font-size:24px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:12px}.r .vl{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+.r .ds{font-size:16px;color:var(--ice);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{height:12px;background:var(--navy);border-radius:6px;margin:4px 0 2px;display:flex;overflow:hidden}.track i{display:block;height:100%}
+.leg{display:flex;gap:18px;font-size:19px;color:var(--ice);margin-bottom:10px}
+.leg b{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.empty{font-size:24px;color:var(--ice);margin:auto}
+footer{display:flex;justify-content:space-between;font-size:20px;color:var(--ice)}
+/* preenchimento */
+.edit h1{font-size:26px;font-weight:800}
+.bar{position:sticky;top:0;z-index:5;background:var(--navy);padding:max(18px,env(safe-area-inset-top)) 0 14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--line);margin-bottom:18px}
+.bar .st{font-size:14px;color:var(--ice);flex:1;min-width:160px}
+.edit button{font:700 15px inherit;font-family:inherit;cursor:pointer;border-radius:10px;border:2px solid var(--line);background:var(--navy2);color:var(--ice);padding:10px 16px}
+.edit button.pri{background:var(--blue);color:var(--navy);border-color:var(--blue)}
+.edit button.x{padding:6px 12px;color:var(--bad)}
+.sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.edit label{font-size:14px;font-weight:700;color:var(--ice);display:flex;flex-direction:column;gap:6px}
+.edit input,.edit textarea{font:600 16px inherit;font-family:inherit;background:var(--navy);color:var(--white);border:2px solid var(--line);border-radius:8px;padding:9px 11px;width:100%}
+.ec{background:var(--navy2);border-radius:16px;padding:18px 20px;margin-bottom:18px;overflow-x:auto}
+.eh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}.eh h3{font-size:19px}.eh span{font-size:13px;color:var(--ice)}
+.ec table{width:100%;min-width:980px;border-collapse:collapse}.ec th{text-align:left;font-size:13px;color:var(--ice);padding:0 6px 6px}.ec td{padding:4px 6px}
+.ec td:last-child{width:52px}
+.ea{display:flex;gap:10px;margin:10px 0}
+.ec textarea{height:64px;margin-bottom:8px;font-size:14px}
+.nota{font-size:14px;color:var(--ice);max-width:900px;margin-bottom:18px;line-height:1.5}
+@media(max-width:760px){
+  body{flex-direction:column-reverse}
+  aside{width:100%;flex-direction:row;padding:8px;border-right:0;border-top:2px solid var(--line);padding-top:8px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+  aside .lo,aside .sp{display:none}aside a,aside button{text-align:center;padding:12px 6px;font-size:14px}
+  #vEd{padding:0 14px 40px}
+}
+@media(prefers-reduced-motion:no-preference){}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="brmap" viewBox="0 0 760 760"><rect x="191" y="10" width="88" height="113" fill="#55A63E"/><rect x="394" y="21" width="63" height="99" fill="#CDD630"/><rect x="465" y="78" width="44" height="37" fill="#5B58A5"/><rect x="63" y="80" width="250" height="200" fill="#4EB3E5"/><rect x="313" y="80" width="197" height="200" fill="#5B5BA6"/><rect x="510" y="121" width="88" height="140" fill="#5EB9D1"/><rect x="598" y="149" width="48" height="110" fill="#F5D93B"/><rect x="525" y="260" width="121" height="40" fill="#F5D93B"/><rect x="647" y="167" width="40" height="90" fill="#E05C9B"/><rect x="687" y="196" width="50" height="37" fill="#6A3F9B"/><rect x="672" y="234" width="74" height="38" fill="#FFD93B"/><rect x="630" y="260" width="116" height="40" fill="#8DB3E0"/><rect x="670" y="300" width="66" height="36" fill="#6BB8A8"/><rect x="663" y="337" width="48" height="25" fill="#D9304F"/><rect x="10" y="263" width="163" height="65" fill="#E8B93A"/><rect x="163" y="280" width="117" height="94" fill="#9DC23B"/><rect x="264" y="280" width="173" height="170" fill="#9ACDE3"/><rect x="437" y="212" width="89" height="155" fill="#8FC7A0"/><rect x="526" y="300" width="144" height="173" fill="#4A9AD4"/><rect x="437" y="368" width="90" height="112" fill="#4A6FB5"/><rect x="478" y="400" width="28" height="26" fill="#BBD433"/><rect x="503" y="400" width="123" height="153" fill="#EBA23B"/><rect x="437" y="481" width="66" height="24" fill="#EBA23B"/><rect x="626" y="460" width="26" height="76" fill="#C9D4EC"/><rect x="562" y="553" width="64" height="18" fill="#8DA8D8"/><rect x="303" y="452" width="134" height="139" fill="#8B2A8A"/><rect x="437" y="503" width="125" height="90" fill="#D13A2B"/><rect x="384" y="559" width="118" height="65" fill="#4A9BA8"/><rect x="392" y="624" width="88" height="52" fill="#7C8FC9"/><rect x="339" y="648" width="107" height="105" fill="#D94E23"/></symbol></svg>
+<aside>
+  <div class="lo"><b>Azul</b><svg class="br" aria-hidden="true"><use href="#brmap" width="100%" height="100%"/></svg><span>Logística</span></div>
+  <a href="#monitoramento" id="nM">Monitoramento (TV)</a>
+  <a href="#preenchimento" id="nP">Preenchimento</a>
+  <div class="sp"></div>
+  <button id="tvBtn">Tela cheia (modo TV)</button>
+</aside>
+<button id="exitTv" title="Sair do modo TV" aria-label="Sair do modo TV">✕</button>
+
+<div id="main">
+  <div id="fl"><div id="flp" class="hide"><div id="flg"></div><div class="fa"><label class="ck"><input type="checkbox" id="auto"> Rolagem automática</label><button id="flc">Limpar filtros</button></div></div><button id="flb" aria-expanded="false">Filtros</button></div>
+  <div id="vTv"><div id="pgw"><div id="pages">
+    <div class="pg" id="stage">
+      <header>
+        <div class="brand"><span class="az">Azul</span><svg class="br" aria-hidden="true"><use href="#brmap" width="100%" height="100%"/></svg><span class="lg">Logística</span></div>
+        <div class="title"><b>Monitoramento da Operação</b><span id="sub"></span></div>
+        <div class="clock"><b id="hora">--:--</b><span id="data"></span></div>
+      </header>
+      <section class="tot" id="tot"></section>
+      <main class="g">
+        <section class="panel"><h2>Planejado/Embarcando D1</h2><div class="sub" id="s1"></div><div class="rows" id="p1"></div></section>
+        <section class="panel"><h2>Planejado/Embarcando D2</h2><div class="sub" id="s2"></div><div class="rows" id="p2"></div></section>
+        <section class="panel"><h2>Unitizados/Consolidados</h2><div class="sub" id="s3"></div>
+          <div class="leg"><span><b style="background:var(--blue)"></b><span id="l1"></span></span><span><b style="background:var(--ice)"></b><span id="l2"></span></span></div>
+          <div class="rows" id="p3"></div></section>
+      </main>
+      
+    </div>
+    <div class="pg" id="pg2">
+      <header><div class="brand"><span class="az">Azul</span><svg class="br" aria-hidden="true"><use href="#brmap" width="100%" height="100%"/></svg><span class="lg">Logística</span></div><div class="title"><b>Outras situações</b><span id="sub2"></span></div><div class="clock"><b id="hora2">--:--</b></div></header>
+      <main class="g4" id="p2g"></main>
+      
+    </div>
+    </div>
+    </div>
+  </div>
+
+  <div id="vEd" class="edit hide">
+    <div class="bar">
+      <h1>Preenchimento</h1>
+      <span class="st" id="st"></span>
+      <button class="pri" id="save">Salvar e atualizar painel</button>
+    </div>
+    <p class="nota">Preencha cada bloco e clique em <b>Salvar e atualizar painel</b>. Para agilizar, copie as linhas da tabela dinâmica no Excel (colunas na mesma ordem) e use <b>Importar linhas coladas</b>. As linhas com o mesmo voo são somadas automaticamente. Preencha também as colunas Produto, SLA, Ação, Base atual, Origem e Descrição: elas alimentam os filtros do painel.</p>
+    <div class="sets" id="sets"></div>
+    <div id="secs"></div>
+  </div>
+</div>
+
+<script>
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $=id=>document.getElementById(id);
+const f=n=>(+n||0).toLocaleString("pt-BR");
+const toNum=s=>{s=String(s??"").trim().replace(/\./g,"").replace(",",".");const n=parseFloat(s);return isNaN(n)?0:n};
+
+const VQ=[["voo","Voo"],["dest","Destino"],["qtd","Qtd AWB","n"]];
+const EX=[["produto","Produto"],["sla","SLA"],["acao","Ação"],["base","Base atual"],["origem","Origem"],["desc","Descrição"]];
+const SEC=[
+ {k:"d1",t:"Planejado/Embarcando D1",c:VQ},
+ {k:"d2",t:"Planejado/Embarcando D2",c:VQ},
+ {k:"unit",t:"Unitizados/Consolidados",c:[["dest","Destino"],["a","Vence dia 1","n"],["b","Vence dia 2","n"]]},
+ {k:"outras",t:"Em outras bases",c:[["voo","Voo"],["dest","Base"],["qtd","Qtd AWB","n"]]},
+ {k:"pend",t:"Pendências",c:[["dest","Base"],["qtd","Qtd AWB","n"]]},
+ {k:"msca",t:"MSCA",c:[["dest","Base"],["qtd","Qtd AWB","n"]]},
+ {k:"reass",t:"Reassinado",c:[["voo","Voo"],["dest","Base"],["qtd","Qtd AWB","n"]]}
+];
+SEC.forEach(s=>{s.c=s.c.concat(EX)});
+const R=(v,d,q)=>({voo:v,dest:d,qtd:q});
+/* dados iniciais (prints de 24/11) — depois de salvar, o que estiver na aba Preenchimento prevalece */
+const DEF={S:{ref:"Voos de 24/11",sla1:"25/nov",sla2:"26/nov"},D:{
+ d1:[R("AD2060","DAM1",3727),R("AD2060","SPO9",2554),R("AD2060","MAO",637),R("AD2040","BEL",1070),R("AD2040","BELT1",748),R("AD2040","ANA01",127),R("AD2040","MCP",25),R("AD2040","STM",1),
+     R("AD4765","DSA8",364),R("AD4765","SSA02",144),R("AD4765","SSA9",62),R("AD4942","DSA8",256),R("AD4942","SSA02",135),R("AD4942","SSAH1",66),R("AD4712","FOR",432),R("AD2922","REC",389),R("AD7725T","REC",89),R("AD2806","PMWLH",1)],
+ d2:[R("AD2040","MCP",718),R("AD2040","MAB",436),R("AD2040","STM",385),R("AD2040","ATM",75),R("AD2040","BELT1",39),R("AD2943","BVB",681),R("AD2806","PMW",275),R("AD2806","PMWLH",382),R("AD4043","CKS",132),R("AD4680","OAL",37),R("AD2608","JJG",18),R("AD4840","MAB",2)],
+ unit:[["REC",1619,0],["FOR",1411,0],["DSA8",212,0],["SSA9",192,0],["BEL",169,0],["BELT1",112,14],["IOS",78,0],["BPS",77,0],["ANA01",41,0],["RBR",41,129],["SPO9",18,0],["BVB",13,397],["DAM1",8,0],["STM",5,0],["PMWLH",1,2],["PMW",0,80],["QBU01",0,54],["JDO",0,64],["ROO",0,41],["PVH",0,2],["CKS",0,154],["MAB",0,18],["IMP",0,649]].map(x=>({dest:x[0],a:x[1],b:x[2]})),
+ outras:[R("AD2744","REC",224)],pend:[R("","BSB02",5),R("","MAO",1)],msca:[],reass:[R("AD2784","PNG01",1)]}};
+DEF.D.d1.forEach(r=>r.sla="25/nov");DEF.D.d2.forEach(r=>r.sla="26/nov");Object.keys(DEF.D).forEach(k=>DEF.D[k].forEach(r=>{r.base="VCP";r.origem="VCP"}));
+let F={produto:"",sla:"",acao:"",base:"",origem:"",desc:""};
+let S=JSON.parse(JSON.stringify(DEF.S)),D=JSON.parse(JSON.stringify(DEF.D)),dirty=false,db=null;
+
+/* ---------- Painel TV ---------- */
+function grp(rows,key="voo"){const m=new Map();rows.forEach(r=>{const q=toNum(r.qtd);if(!r[key]&&!q)return;const k=r[key]||"—",o=m.get(k)||{n:k,v:0,d:[]};o.v+=q;if(key==="voo"&&r.dest)o.d.push([r.dest,q]);m.set(k,o)});return[...m.values()].sort((a,b)=>b.v-a.v)}
+function rowsHtml(g){if(!g.length)return'<div class="empty">Sem volumes</div>';const m=Math.max(...g.map(x=>x.v),1),sh=g.slice(0,8),ex=g.slice(8);
+  const l=sh.map(x=>({n:x.n,v:x.v,s:x.d.sort((a,b)=>b[1]-a[1]).map(d=>esc(d[0])+" "+f(d[1])).join(" · ")}));
+  if(ex.length)l.push({n:"Outros "+ex.length+" voos",v:ex.reduce((s,x)=>s+x.v,0),s:""});
+  return l.map(x=>`<div class="r"><div class="top"><span class="nm">${esc(x.n)}</span><span class="vl">${f(x.v)}</span></div><div class="track"><i style="width:${Math.max(x.v/m*100,1)}%;background:var(--blue)"></i></div><div class="ds">${x.s}</div></div>`).join("")}
+function sumBy(rows){const m=new Map();rows.forEach(r=>{const q=toNum(r.qtd);if(!r.dest&&!q)return;m.set(r.dest||"—",(m.get(r.dest||"—")||0)+q)});return[...m.entries()]}
+function card(t,v,p,c){return`<div class="card ${c}"><h3>${esc(t)}</h3><div class="v">${f(v)}</div><p>${esc(p)}</p></div>`}
+function fd(){const o={};SEC.forEach(s=>{o[s.k]=D[s.k].filter(r=>EX.every(e=>!F[e[0]]||(s.k==="unit"&&e[0]==="sla")||String(r[e[0]]||"").trim()===F[e[0]]))});return o}
+function render(){const D=fd();
+  const g1=grp(D.d1),g2=grp(D.d2),t1=g1.reduce((s,x)=>s+x.v,0),t2=g2.reduce((s,x)=>s+x.v,0);
+  const U=D.unit.map(r=>({n:r.dest||"—",a:toNum(r.a),b:toNum(r.b)})).filter(x=>x.a||x.b).sort((a,b)=>(b.a+b.b)-(a.a+a.b));
+  const ua=U.reduce((s,x)=>s+x.a,0),ub=U.reduce((s,x)=>s+x.b,0),top=U.slice(0,8),rest=U.slice(8);
+  if(rest.length)top.push({n:"Outros "+rest.length+" destinos",a:rest.reduce((s,x)=>s+x.a,0),b:rest.reduce((s,x)=>s+x.b,0)});
+  const sOut=D.outras.reduce((s,r)=>s+toNum(r.qtd),0),sP=sumBy(D.pend),tP=sP.reduce((s,x)=>s+x[1],0),sM=sumBy(D.msca),tM=sM.reduce((s,x)=>s+x[1],0),sR=D.reass.reduce((s,r)=>s+toNum(r.qtd),0);
+  const txt=(rows)=>rows.slice(0,2).map(r=>[r.voo,r.dest].filter(Boolean).join(" · ")).join(" | ")||"Sem volumes";
+  $("sub").textContent=$("sub2").textContent=S.ref;
+  $("tot").innerHTML=card("Planejado D1",t1,"Vence "+S.sla1,"")+card("Planejado D2",t2,"Vence "+S.sla2,"")+card("Unitizados",ua+ub,S.sla1+" "+f(ua)+" · "+S.sla2+" "+f(ub),"");
+  const pn=(t,v,c,h)=>`<section class="panel"><h2>${t}</h2><div class="big ${c}">${f(v)}</div><div class="rows">${h}</div></section>`;
+  $("p2g").innerHTML=pn("Em outras bases",sOut,sOut>0?"warn":"ok",rowsHtml(grp(D.outras)))+pn("Pendências",tP,tP>0?"bad":"ok",rowsHtml(grp(D.pend,"dest")))+pn("MSCA",tM,tM>0?"bad":"ok",rowsHtml(grp(D.msca,"dest")))+pn("Reassinado",sR,sR>0?"warn":"ok",rowsHtml(grp(D.reass)));
+  $("s1").textContent=f(t1)+" AWB · por voo · vence "+S.sla1;
+  $("s2").textContent=f(t2)+" AWB · por voo · vence "+S.sla2;
+  $("s3").textContent=f(ua+ub)+" AWB · por destino";
+  $("l1").textContent="Vence "+S.sla1;$("l2").textContent="Vence "+S.sla2;
+  $("p1").innerHTML=rowsHtml(g1);$("p2").innerHTML=rowsHtml(g2);
+  const m=Math.max(...top.map(x=>x.a+x.b),1);
+  $("p3").innerHTML=top.length?top.map(x=>`<div class="r"><div class="top"><span class="nm">${esc(x.n)}</span><span class="vl">${f(x.a+x.b)}</span></div><div class="track"><i style="width:${x.a/m*100}%;background:var(--blue)"></i><i style="width:${x.b/m*100}%;background:var(--ice)"></i></div></div>`).join(""):'<div class="empty">Sem volumes</div>';
+}
+
+function tick(){const d=new Date(),hm=d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});$("hora").textContent=$("hora2").textContent=hm;
+  $("data").textContent=d.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"})}
+function fit(){const w=$("vTv"),s=Math.min(w.clientWidth/1920,w.clientHeight/1080);if(!s)return;window.SC=s;$("pages").style.transform=`scale(${s})`;$("pgw").style.width=1920*s+"px";$("pgw").style.height=2160*s+"px"}
+new ResizeObserver(fit).observe($("vTv"));
+
+/* ---------- Preenchimento ---------- */
+function edit(){
+  $("sets").innerHTML=[["ref","Subtítulo do painel"],["sla1","Vencimento dia 1"],["sla2","Vencimento dia 2"]].map(a=>`<label>${a[1]}<input data-s="${a[0]}" value="${esc(S[a[0]])}"></label>`).join("");
+  $("secs").innerHTML=SEC.map(s=>`<section class="ec"><div class="eh"><h3>${s.t}</h3><span>${D[s.k].length} linhas</span></div>
+  <table><thead><tr>${s.c.map(c=>`<th>${c[1]}</th>`).join("")}<th></th></tr></thead><tbody>${D[s.k].map((r,i)=>`<tr>${s.c.map(c=>`<td><input data-k="${s.k}" data-i="${i}" data-f="${c[0]}" ${c[2]?'inputmode="decimal"':""} aria-label="${c[1]}" value="${esc(r[c[0]])}"></td>`).join("")}<td><button class="x" data-del="${s.k}:${i}" aria-label="Remover linha">×</button></td></tr>`).join("")}</tbody></table>
+  <div class="ea"><button data-add="${s.k}">+ Linha</button><button data-clr="${s.k}">Limpar bloco</button></div>
+  <textarea data-paste="${s.k}" placeholder="Cole aqui linhas copiadas do Excel (colunas na mesma ordem da tabela)"></textarea><button data-imp="${s.k}">Importar linhas coladas</button></section>`).join("");
+}
+function mark(){dirty=true;$("st").textContent="Alterações ainda não salvas";render()}
+document.addEventListener("input",e=>{const t=e.target;
+  if(t.dataset.s){S[t.dataset.s]=t.value;mark()}
+  else if(t.dataset.k){D[t.dataset.k][+t.dataset.i][t.dataset.f]=t.value;mark()}});
+document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;const d=t.dataset;
+  const sec=k=>SEC.find(s=>s.k===k);
+  if(d.add){const o={};sec(d.add).c.forEach(c=>o[c[0]]="");D[d.add].push(o);edit();mark()}
+  else if(d.del){const[k,i]=d.del.split(":");D[k].splice(+i,1);edit();mark()}
+  else if(d.clr){if(confirm("Limpar todas as linhas deste bloco?")){D[d.clr]=[];edit();mark()}}
+  else if(d.imp){const ta=document.querySelector(`textarea[data-paste="${d.imp}"]`),cs=sec(d.imp).c;
+    ta.value.split(/\r?\n/).filter(l=>l.trim()).forEach(l=>{const p=l.split(/\t|;/),o={};cs.forEach((c,j)=>{const v=(p[j]??"").trim();o[c[0]]=c[2]?String(toNum(v)):v});D[d.imp].push(o)});
+    ta.value="";edit();mark()}});
+
+async function save(){
+  const payload={S,D},json=JSON.stringify(payload);
+  try{localStorage.setItem("azul_monitor",json)}catch(e){}
+  if(db){try{await db.doc("monitor/atual").set({json,at:Date.now()});dirty=false;$("st").textContent="Salvo para todos às "+new Date().toLocaleTimeString("pt-BR");return}
+    catch(e){$("st").textContent="Salvo só neste navegador (sem permissão para compartilhar).";return}}
+  dirty=false;$("st").textContent="Salvo só neste navegador.";
+}
+$("save").onclick=save;
+function apply(json){try{const p=JSON.parse(json);if(p.S&&p.D){S=Object.assign(S,p.S);SEC.forEach(s=>{D[s.k]=Array.isArray(p.D[s.k])?p.D[s.k]:[]});return true}}catch(e){}return false}
+
+/* ---------- Filtros (discretos) ---------- */
+function flBuild(){$("flg").innerHTML=EX.map(e=>{const k=e[0],vals=[...new Set(SEC.flatMap(s=>D[s.k].map(r=>String(r[k]||"").trim())).filter(Boolean))].sort();
+  return `<label>${e[1]}<select data-fl="${k}"><option value="">(Todos)</option>${vals.map(v=>`<option value="${esc(v)}"${F[k]===v?" selected":""}>${esc(v)}</option>`).join("")}</select></label>`}).join("")}
+function flCount(){const n=Object.values(F).filter(Boolean).length;$("flb").textContent=n?"Filtros ("+n+")":"Filtros";$("flb").classList.toggle("act",n>0)}
+$("flb").onclick=()=>{const p=$("flp"),open=p.classList.contains("hide");if(open)flBuild();p.classList.toggle("hide",!open);$("flb").setAttribute("aria-expanded",open)};
+$("flg").addEventListener("change",e=>{const k=e.target.dataset.fl;if(k){F[k]=e.target.value;flCount();render()}});
+$("flc").onclick=()=>{Object.keys(F).forEach(k=>F[k]="");flBuild();flCount();render()};
+let at=null;$("auto").onchange=e=>{clearInterval(at);if(e.target.checked)at=setInterval(()=>{const w=$("vTv"),h=1080*(window.SC||1);w.scrollTo({top:w.scrollTop>h/2?0:h,behavior:"smooth"})},20000)};
+/* ---------- Menu / modo TV ---------- */
+function show(){const ed=location.hash==="#preenchimento";
+  $("vTv").classList.toggle("hide",ed);$("vEd").classList.toggle("hide",!ed);
+  $("nM").classList.toggle("on",!ed);$("nP").classList.toggle("on",ed);$("tvBtn").classList.toggle("hide",ed);$("fl").classList.toggle("hide",ed);if(!ed)fit()}
+addEventListener("hashchange",show);
+$("tvBtn").onclick=()=>{document.body.classList.add("tv");try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}setTimeout(fit,100)};
+function exitTv(){document.body.classList.remove("tv");if(document.fullscreenElement)document.exitFullscreen();setTimeout(fit,100)}
+$("exitTv").onclick=exitTv;
+document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&document.body.classList.contains("tv"))exitTv()});
+
+/* ---------- Início ---------- */
+try{const l=localStorage.getItem("azul_monitor");if(l)apply(l)}catch(e){}
+if(!location.hash)location.hash="#monitoramento";
+edit();render();tick();show();setInterval(tick,1000);
+$("st").textContent="Dados carregados.";
+(async()=>{
+  if(!(window.claude&&claude.use))return;
+  try{db=await claude.use("db")}catch(e){db=null}
+  if(!db){$("st").textContent="Salvando apenas neste navegador.";return}
+  let t=setTimeout(()=>{},10000);
+  db.doc("monitor/atual").onSnapshot(s=>{clearTimeout(t);if(s.exists&&!dirty){const d=s.data();if(d&&d.json&&apply(d.json)){edit();render();$("st").textContent="Sincronizado."}}},()=>{clearTimeout(t)});
+})();
+</script>
+</body>
+</html>
