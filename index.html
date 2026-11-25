@@ -116,6 +116,12 @@ body.lo aside,body.lo #main,body.lo #exitTv{display:none!important}
 .lsec{background:transparent;color:var(--white);border:2px solid var(--blue);padding:13px;font-size:16px}.lsec:hover{background:rgba(43,163,220,.14)}
 .lsec small{display:block;font-size:12px;font-weight:600;color:var(--ice);margin-top:3px}
 .lfoot{position:relative;font-size:12px;color:var(--ice);opacity:.7}
+.cf0{font-size:17px;font-weight:800;margin:20px 0 4px}
+.bt{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.bt button[aria-pressed=true]{background:var(--blue);color:var(--navy);border-color:var(--blue)}
+.cf{font-size:14px;font-weight:800;color:var(--ice);margin:12px 0 6px}
+.chp{display:flex;flex-wrap:wrap;gap:6px}.chp button{padding:6px 10px;font-size:13px}
+.chp button[aria-pressed=true]{background:var(--ok);color:var(--navy);border-color:var(--ok)}
 </style>
 </head>
 <body class="lo">
@@ -146,7 +152,7 @@ body.lo aside,body.lo #main,body.lo #exitTv{display:none!important}
 <button id="exitTv" title="Sair do modo TV" aria-label="Sair do modo TV">✕</button>
 
 <div id="main">
-  <div id="fl"><div id="flp" class="hide"><div id="flg"></div><div class="fa"><label class="ck"><input type="checkbox" id="auto"> Rolagem automática</label><button id="flc">Limpar filtros</button></div></div><button id="flb" aria-expanded="false">Filtros</button></div>
+  <div id="fl"><div id="flp" class="hide"><div id="flg"></div><div class="fa"><label class="ck"><input type="checkbox" id="auto" checked> Rolagem automática</label><button id="flc">Limpar filtros</button></div></div><button id="flb" aria-expanded="false">Filtros</button></div>
   <div id="vTv"><div id="pgw"><div id="pages">
     <div class="pg" id="stage">
       <header>
@@ -181,7 +187,7 @@ body.lo aside,body.lo #main,body.lo #exitTv{display:none!important}
       <textarea id="paste" class="drop" rows="3" placeholder="Clique aqui e pressione Ctrl+V" aria-label="Colar a planilha do Excel"></textarea>
       <div class="sets" style="margin-top:14px">
         <label>Data de referência (o &ldquo;hoje&rdquo; do monitoramento)<input type="date" id="ref"></label>
-        <label>Formato das datas na planilha<select id="dfmt"><option value="mdy">Mês/dia/ano (como no seu print: 11/21/2026)</option><option value="dmy">Dia/mês/ano (21/11/2026)</option></select></label>
+        <label>Formato das datas na planilha<select id="dfmt"><option value="auto">Automático (recomendado)</option><option value="mdy">Mês/dia/ano (11/21/2026)</option><option value="dmy">Dia/mês/ano (21/11/2026)</option></select></label>
       </div>
       <p class="nota" id="sum"></p>
       <div class="ea"><button id="clear">Limpar dados</button></div>
@@ -191,6 +197,9 @@ body.lo aside,body.lo #main,body.lo #exitTv{display:none!important}
       <p class="nota">São os mesmos filtros das suas tabelas dinâmicas. Deixe vazio para &ldquo;todos&rdquo;. Separe valores por vírgula. Use <b>(vazio)</b> para células em branco, <b>hoje</b>, <b>hoje+1</b>, <b>hoje+2</b> nas datas, e <b>*</b> no fim para &ldquo;começa com&rdquo; (ex.: 2-Em Con*). Se um total não bater com a sua tabela dinâmica, ajuste aqui.</p>
       <table id="rules"></table>
       <div id="dls"></div>
+      <h3 class="cf0">Conferir como nos filtros do Excel</h3>
+      <p class="nota">Compare o total de cada bloco com a sua tabela dinâmica. Clique nos valores para incluir só eles (igual ao filtro do Excel). Sem nenhum marcado, vale &ldquo;todos&rdquo;.</p>
+      <div id="bsel" class="bt"></div><div id="chips"></div>
       <p class="nota" id="vals"></p>
       <div class="ea"><button id="rst">Restaurar regras padrão</button></div>
     </details>
@@ -220,13 +229,13 @@ const BLK=[["d1","Planejado D1"],["d2","Planejado D2"],["unit","Unitizados"],["o
 const RD={
   d1:{base:"VCP",origem:"VCP",sla:"hoje+1",dtvoo:"hoje"},
   d2:{base:"VCP",origem:"VCP",sla:"hoje+2",dtvoo:"hoje"},
-  unit:{base:"VCP",origem:"VCP",sla:"hoje+1,hoje+2",voo:"(vazio)",desc:"Unitizado"},
-  outras:{origem:"VCP",sla:"hoje+1",class:"2-Em Con*"},
+  unit:{base:"VCP",origem:"VCP",sla:"hoje+1,hoje+2",desc:"Unitizado*,Consolidado*"},
+  outras:{base:"!VCP",origem:"VCP",sla:"hoje+1,hoje+2",class:"2-Em Con*"},
   pend:{produto:"PREMIUM_CORP*",base:"VCP",origem:"VCP",sla:"hoje",dtvoo:"(vazio)"},
-  msca:{acao:"MSCA",base:"VCP",origem:"VCP"},
+  msca:{acao:"MSCA",base:"VCP",origem:"VCP",dtvoo:"hoje"},
   reass:{acao:"Reassigned",origem:"VCP",sla:"hoje+1"}};
 const cl=o=>JSON.parse(JSON.stringify(o));
-let S={ref:todayISO(),dfmt:"mdy",at:0},RULES=cl(RD),RECS=[],F={produto:"",sla:"",acao:"",base:"",origem:"",desc:""},dirty=false,db=null,tmr=null;
+let S={ref:todayISO(),fmt:"auto",at:0},RULES=cl(RD),RECS=[],F={produto:"",sla:"",acao:"",base:"",origem:"",desc:""},dirty=false,db=null,tmr=null;
 const mergeRules=r=>{const o=cl(RD);BLK.forEach(([k])=>{o[k]=Object.assign({},o[k],r&&r[k]||{})});return o};
 
 /* ---------- leitura da planilha colada ---------- */
@@ -239,22 +248,26 @@ function ingest(text){
   const h=lines[0].split("\t").map(c=>norm(c).replace(/[^a-z0-9]/g,"")),idx={};let start=0,hdr=false;
   if(h.includes("awb")&&(h.includes("baseatual")||h.includes("sla"))){COLS.forEach(c=>idx[c]=h.indexOf(c));start=1;hdr=true}else COLS.forEach((c,i)=>idx[c]=i);
   const g=(p,c)=>idx[c]>=0?(p[idx[c]]||"").trim():"";
+  let fm=S.fmt;
+  if(fm==="auto"){let A=0,B=0;for(let i=start;i<lines.length;i++){const p=lines[i].split("\t");for(const c of ["sla","dtvoo"]){if(idx[c]<0)continue;const q=(p[idx[c]]||"").match(/(\d{1,2})[\/\-.](\d{1,2})[\/\-.]\d{2,4}/);if(q){if(+q[1]>12)A++;if(+q[2]>12)B++}}}fm=B>A?"mdy":"dmy"}
   const m=new Map();let n=0;
   for(let i=start;i<lines.length;i++){const p=lines[i].split("\t");if(idx.awb>=0&&!g(p,"awb"))continue;
-    const r=[g(p,"nvoo"),g(p,"destino"),g(p,"produto"),pd(g(p,"sla"),S.dfmt),g(p,"acao"),g(p,"baseatual"),g(p,"origem"),g(p,"descricao"),g(p,"class"),pd(g(p,"dtvoo"),S.dfmt)].join("\u0001");
+    const r=[g(p,"nvoo"),g(p,"destino"),g(p,"produto"),pd(g(p,"sla"),fm),g(p,"acao"),g(p,"baseatual"),g(p,"origem"),g(p,"descricao"),g(p,"class"),pd(g(p,"dtvoo"),fm)].join("\u0001");
     m.set(r,(m.get(r)||0)+1);n++}
   if(!n)return{n:0,hdr};
   RECS=[...m.entries()].map(([k,q])=>{const a=k.split("\u0001");return{voo:a[0],dest:a[1],produto:a[2],sla:a[3],acao:a[4],base:a[5],origem:a[6],desc:a[7],class:a[8],dtvoo:a[9],qtd:q}});
-  return{n,hdr,miss:["sla","baseatual","nvoo","destino","descricao","acao","class"].filter(c=>idx[c]<0)};
+  return{n,hdr,fm,miss:["sla","baseatual","nvoo","destino","descricao","acao","class"].filter(c=>idx[c]<0)};
 }
 
 /* ---------- regras (equivalem aos filtros da tabela dinâmica) ---------- */
 function tokDate(k){let m=k.match(/^hoje\s*([+-]\s*\d+)?$/i);if(m)return addD(S.ref,m[1]?parseInt(m[1].replace(/\s/g,"")):0);
   m=k.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/);if(m){let y=m[3]?+m[3]:+S.ref.slice(0,4);if(y<100)y+=2000;return`${y}-${p2(+m[2])}-${p2(+m[1])}`}return null}
 function mk(fld,rule){const t=String(rule||"").split(",").map(x=>x.trim()).filter(Boolean);if(!t.length)return null;
-  const dates=new Set(),vals=new Set(),pre=[];let vz=false;
-  t.forEach(k=>{if(norm(k)==="(vazio)")vz=true;else if(DATEF.has(fld)){const d=tokDate(k);if(d)dates.add(d)}else{const b=norm(k);b.endsWith("*")?pre.push(b.slice(0,-1)):vals.add(b)}});
-  return v=>{if(v==="")return vz;if(DATEF.has(fld))return dates.has(v);const a=norm(v);return vals.has(a)||pre.some(p=>a.startsWith(p))}}
+  const P={d:new Set(),v:new Set(),p:[],z:false,any:false},N={d:new Set(),v:new Set(),p:[],z:false,any:false};
+  t.forEach(k=>{const neg=k[0]==="!",x=neg?k.slice(1).trim():k,o=neg?N:P;o.any=true;
+    if(norm(x)==="(vazio)")o.z=true;else if(DATEF.has(fld)){const d=tokDate(x);if(d)o.d.add(d)}else{const b=norm(x);b.endsWith("*")?o.p.push(b.slice(0,-1)):o.v.add(b)}});
+  const hit=(o,v)=>v===""?o.z:(DATEF.has(fld)?o.d.has(v):(a=>o.v.has(a)||o.p.some(q=>a.startsWith(q)))(norm(v)));
+  return v=>(!P.any||hit(P,v))&&!(N.any&&hit(N,v))}
 function derive(){
   const out={};
   BLK.forEach(([k])=>{
@@ -312,23 +325,40 @@ function rulesUI(){
   const vals=x=>[...new Set(RECS.map(r=>x==="voo"?r.voo:x==="desc"?r.desc:r[x]).filter(Boolean))].sort();
   $("dls").innerHTML=FLD.map(x=>`<datalist id="dl-${x}">${(DATEF.has(x)?["hoje","hoje+1","hoje+2","(vazio)"]:["(vazio)"].concat(vals(x).slice(0,80))).map(v=>`<option value="${esc(v)}">`).join("")}</datalist>`).join("");
   $("vals").innerHTML=RECS.length?["desc","acao","class","produto"].map(x=>`<b>${FL[x]}:</b> ${esc(vals(x).slice(0,30).join(" · "))}`).join("<br>"):"";
-  $("ref").value=S.ref;$("dfmt").value=S.dfmt;
+  $("ref").value=S.ref;$("dfmt").value=S.fmt;chipsUI();
 }
 const later=()=>{dirty=true;$("st").textContent="Salvando…";clearTimeout(tmr);tmr=setTimeout(save,900)};
 document.addEventListener("input",e=>{const t=e.target;
-  if(t.dataset.rb){RULES[t.dataset.rb][t.dataset.rf]=t.value;render();later()}});
+  if(t.dataset.rb){RULES[t.dataset.rb][t.dataset.rf]=t.value;render();chipsUI();later()}});
 $("ref").onchange=e=>{if(e.target.value){S.ref=e.target.value;render();later()}};
-$("dfmt").onchange=e=>{S.dfmt=e.target.value;$("info").textContent="O formato vale a partir da próxima colagem."};
+$("dfmt").onchange=e=>{S.fmt=e.target.value;$("info").textContent="O formato vale a partir da próxima colagem."};
 $("rst").onclick=()=>{RULES=cl(RD);rulesUI();render();later()};
 $("clear").onclick=()=>{if(confirm("Apagar os dados do painel?")){RECS=[];render();rulesUI();later()}};
 function go(text){$("st").textContent="Processando…";setTimeout(()=>{
   const r=ingest(text);
   if(!r||!r.n){$("info").textContent="Nenhuma linha válida encontrada.";$("st").textContent="";return}
   S.ref=todayISO();
-  $("info").textContent=`${f(r.n)} linhas lidas · ${f(RECS.length)} combinações · ${r.hdr?"cabeçalho reconhecido":"sem cabeçalho (usei a ordem padrão da planilha)"}${r.miss&&r.miss.length?" · faltam colunas: "+r.miss.join(", "):""}`;
+  $("info").textContent=`${f(r.n)} linhas lidas · ${f(RECS.length)} combinações · ${r.hdr?"cabeçalho reconhecido":"sem cabeçalho (usei a ordem padrão da planilha)"}· datas lidas como ${r.fm==="dmy"?"dia/mês/ano":"mês/dia/ano"}${r.miss&&r.miss.length?" · faltam colunas: "+r.miss.join(", "):""}`;
   render();rulesUI();later()},30)}
 $("paste").addEventListener("paste",e=>{e.preventDefault();go((e.clipboardData||window.clipboardData).getData("text"))});
 $("paste").addEventListener("input",e=>{const t=e.target.value;if(t){e.target.value="";go(t)}});
+
+/* ---------- conferência dos filtros ---------- */
+let CB="d1";
+function chipsUI(){
+  const D=derive(),tot=k=>k==="unit"?D.unit.reduce((s,r)=>s+r.a+r.b,0):sm(D[k]);
+  $("bsel").innerHTML=BLK.map(([k,t])=>`<button type="button" data-cb="${k}" aria-pressed="${k===CB}">${t} · ${f(tot(k))}</button>`).join("");
+  $("chips").innerHTML=["desc","acao","class","produto","base","origem"].map(x=>{
+    const ts=FLD.filter(y=>y!==x).map(y=>[y,mk(y,RULES[CB][y])]).filter(z=>z[1]),m=new Map();
+    RECS.forEach(r=>{if(ts.every(([y,fn])=>fn(r[y]))){const v=r[x]||"(vazio)";m.set(v,(m.get(v)||0)+r.qtd)}});
+    const sel=String(RULES[CB][x]||"").split(",").map(q=>norm(q.trim())).filter(Boolean);
+    const list=[...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,40);
+    return`<div class="cf">${FL[x]}</div><div class="chp"><button type="button" data-cf="${x}" data-cv="" aria-pressed="${!sel.length}">Todos</button>${list.map(([v,q])=>{const on=sel.includes(norm(v));return`<button type="button" data-cf="${x}" data-cv="${esc(v)}" aria-pressed="${on}">${on?"✓ ":""}${esc(v)} · ${f(q)}</button>`}).join("")}</div>`}).join("")}
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.cb){CB=b.dataset.cb;chipsUI()}
+  else if(b.dataset.cf){const fl=b.dataset.cf,v=b.dataset.cv;let t=String(RULES[CB][fl]||"").split(",").map(q=>q.trim()).filter(Boolean);
+    if(v==="")t=[];else{const i=t.findIndex(q=>norm(q)===norm(v));i>=0?t.splice(i,1):t.push(v)}
+    RULES[CB][fl]=t.join(",");rulesUI();render();later()}});
 
 /* ---------- salvar / carregar ---------- */
 async function gz(str){const cs=new CompressionStream("gzip"),w=cs.writable.getWriter();w.write(new TextEncoder().encode(str));w.close();
@@ -354,7 +384,8 @@ function flCount(){const n=Object.values(F).filter(Boolean).length;$("flb").text
 $("flb").onclick=()=>{const p=$("flp"),open=p.classList.contains("hide");if(open)flBuild();p.classList.toggle("hide",!open);$("flb").setAttribute("aria-expanded",open)};
 $("flg").addEventListener("change",e=>{const k=e.target.dataset.fl;if(k){F[k]=e.target.value;flCount();render()}});
 $("flc").onclick=()=>{Object.keys(F).forEach(k=>F[k]="");flBuild();flCount();render()};
-let at=null;$("auto").onchange=e=>{clearInterval(at);if(e.target.checked)at=setInterval(()=>{const w=$("vTv"),h=1080*(window.SC||1);w.scrollTo({top:w.scrollTop>h/2?0:h,behavior:"smooth"})},20000)};
+let at=null;function setAuto(on){clearInterval(at);at=null;if(on)at=setInterval(()=>{const w=$("vTv"),h=1080*(window.SC||1);w.scrollTo({top:w.scrollTop>h/2?0:h,behavior:"smooth"})},20000)}
+$("auto").onchange=e=>setAuto(e.target.checked);setAuto(true);
 
 /* ---------- Menu / modo TV ---------- */
 function show(){const ed=ROLE==="admin"&&location.hash==="#preenchimento";
