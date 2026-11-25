@@ -88,16 +88,57 @@ footer{display:flex;justify-content:space-between;font-size:20px;color:var(--ice
   #vEd{padding:0 14px 40px}
 }
 @media(prefers-reduced-motion:no-preference){}
+.drop{min-height:84px;border-style:dashed!important;border-color:var(--blue)!important;text-align:center;cursor:text;resize:vertical}
+.edit select{font:600 16px inherit;font-family:inherit;background:var(--navy);color:var(--white);border:2px solid var(--line);border-radius:8px;padding:9px 11px;width:100%}
+.ec summary{font-size:19px;font-weight:800;cursor:pointer;margin-bottom:12px}
+#rules{min-width:1150px}#rules td input{min-width:112px;font-size:14px;padding:7px 9px}#rules td:first-child{white-space:nowrap;padding-right:12px}
+#login{display:none;position:fixed;inset:0;z-index:100;overflow:auto;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:max(24px,env(safe-area-inset-top)) 20px max(24px,env(safe-area-inset-bottom));background:radial-gradient(900px 600px at 85% 0%,rgba(43,163,220,.22),transparent 60%),radial-gradient(700px 500px at 0% 100%,rgba(91,91,166,.25),transparent 60%),linear-gradient(160deg,#001F45,#00142E)}
+body.lo #login{display:flex}
+body.lo aside,body.lo #main,body.lo #exitTv{display:none!important}
+#login .deco{position:absolute;right:-4%;bottom:-8%;width:min(78vh,620px);height:min(78vh,620px);opacity:.13;pointer-events:none}
+.lcard{position:relative;width:min(440px,100%);background:rgba(3,44,94,.78);border:1px solid var(--line);border-radius:26px;padding:34px 32px 30px;box-shadow:0 30px 80px rgba(0,0,0,.45);backdrop-filter:blur(10px)}
+.lhero{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:22px}
+.lhero .az{font-size:clamp(42px,11vw,60px)}.lhero .br{width:clamp(56px,14vw,78px);height:clamp(56px,14vw,78px)}.lhero .lg{font-size:clamp(24px,6vw,34px);padding-left:14px}
+.lcard h1{font-size:22px;font-weight:800;text-align:center}
+.lcard .ls{font-size:14px;color:var(--ice);text-align:center;margin:4px 0 22px}
+.lcard label{display:block;font-size:13px;font-weight:700;color:var(--ice);margin:14px 0 6px}
+.lcard input{width:100%;font-family:inherit;font-size:17px;font-weight:600;background:var(--navy);color:var(--white);border:2px solid var(--line);border-radius:12px;padding:13px 14px}
+.lcard input:focus-visible,.lcard button:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+.pw{position:relative}.pw input{padding-right:96px}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--blue);font-family:inherit;font-size:13px;font-weight:700;padding:8px 10px;cursor:pointer;border-radius:8px}
+.lerr{min-height:20px;margin:10px 0 4px;font-size:14px;font-weight:700;color:var(--bad)}
+.lpri,.lsec{width:100%;border-radius:14px;font-family:inherit;font-weight:800;cursor:pointer}
+.lpri{background:var(--blue);color:var(--navy);border:0;padding:15px;font-size:17px}.lpri:hover{filter:brightness(1.08)}
+.lor{display:flex;align-items:center;gap:12px;color:var(--ice);font-size:13px;margin:18px 0}.lor::before,.lor::after{content:"";flex:1;height:1px;background:var(--line)}
+.lsec{background:transparent;color:var(--white);border:2px solid var(--blue);padding:13px;font-size:16px}.lsec:hover{background:rgba(43,163,220,.14)}
+.lsec small{display:block;font-size:12px;font-weight:600;color:var(--ice);margin-top:3px}
+.lfoot{position:relative;font-size:12px;color:var(--ice);opacity:.7}
 </style>
 </head>
-<body>
+<body class="lo">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="brmap" viewBox="0 0 760 760"><rect x="191" y="10" width="88" height="113" fill="#55A63E"/><rect x="394" y="21" width="63" height="99" fill="#CDD630"/><rect x="465" y="78" width="44" height="37" fill="#5B58A5"/><rect x="63" y="80" width="250" height="200" fill="#4EB3E5"/><rect x="313" y="80" width="197" height="200" fill="#5B5BA6"/><rect x="510" y="121" width="88" height="140" fill="#5EB9D1"/><rect x="598" y="149" width="48" height="110" fill="#F5D93B"/><rect x="525" y="260" width="121" height="40" fill="#F5D93B"/><rect x="647" y="167" width="40" height="90" fill="#E05C9B"/><rect x="687" y="196" width="50" height="37" fill="#6A3F9B"/><rect x="672" y="234" width="74" height="38" fill="#FFD93B"/><rect x="630" y="260" width="116" height="40" fill="#8DB3E0"/><rect x="670" y="300" width="66" height="36" fill="#6BB8A8"/><rect x="663" y="337" width="48" height="25" fill="#D9304F"/><rect x="10" y="263" width="163" height="65" fill="#E8B93A"/><rect x="163" y="280" width="117" height="94" fill="#9DC23B"/><rect x="264" y="280" width="173" height="170" fill="#9ACDE3"/><rect x="437" y="212" width="89" height="155" fill="#8FC7A0"/><rect x="526" y="300" width="144" height="173" fill="#4A9AD4"/><rect x="437" y="368" width="90" height="112" fill="#4A6FB5"/><rect x="478" y="400" width="28" height="26" fill="#BBD433"/><rect x="503" y="400" width="123" height="153" fill="#EBA23B"/><rect x="437" y="481" width="66" height="24" fill="#EBA23B"/><rect x="626" y="460" width="26" height="76" fill="#C9D4EC"/><rect x="562" y="553" width="64" height="18" fill="#8DA8D8"/><rect x="303" y="452" width="134" height="139" fill="#8B2A8A"/><rect x="437" y="503" width="125" height="90" fill="#D13A2B"/><rect x="384" y="559" width="118" height="65" fill="#4A9BA8"/><rect x="392" y="624" width="88" height="52" fill="#7C8FC9"/><rect x="339" y="648" width="107" height="105" fill="#D94E23"/></symbol></svg>
+<div id="login">
+  <svg class="deco" aria-hidden="true"><use href="#brmap" width="100%" height="100%"/></svg>
+  <div class="lcard">
+    <div class="lhero"><span class="az">Azul</span><svg class="br" aria-hidden="true"><use href="#brmap" width="100%" height="100%"/></svg><span class="lg">Logística</span></div>
+    <h1>Painel de Monitoramento</h1>
+    <p class="ls">Acesso da Torre de Controle</p>
+    <label for="lu">Usuário</label><input id="lu" type="text" autocomplete="username" autocapitalize="none" spellcheck="false">
+    <label for="lp">Senha</label><div class="pw"><input id="lp" type="password" autocomplete="current-password"><button id="eye" type="button" aria-pressed="false">Mostrar</button></div>
+    <div id="le" class="lerr" role="alert"></div>
+    <button id="lb" class="lpri" type="button">Entrar</button>
+    <div class="lor"><span>ou</span></div>
+    <button id="lv" class="lsec" type="button">Acessar somente o monitoramento<small>Tela cheia · não precisa de login</small></button>
+  </div>
+  <p class="lfoot">Azul Logística · Torre de Controle</p>
+</div>
 <aside>
   <div class="lo"><b>Azul</b><svg class="br" aria-hidden="true"><use href="#brmap" width="100%" height="100%"/></svg><span>Logística</span></div>
   <a href="#monitoramento" id="nM">Monitoramento (TV)</a>
   <a href="#preenchimento" id="nP">Preenchimento</a>
   <div class="sp"></div>
   <button id="tvBtn">Tela cheia (modo TV)</button>
+  <button id="outBtn">Sair</button>
 </aside>
 <button id="exitTv" title="Sair do modo TV" aria-label="Sair do modo TV">✕</button>
 
@@ -130,14 +171,26 @@ footer{display:flex;justify-content:space-between;font-size:20px;color:var(--ice
   </div>
 
   <div id="vEd" class="edit hide">
-    <div class="bar">
-      <h1>Preenchimento</h1>
-      <span class="st" id="st"></span>
-      <button class="pri" id="save">Salvar e atualizar painel</button>
-    </div>
-    <p class="nota">Preencha cada bloco e clique em <b>Salvar e atualizar painel</b>. Para agilizar, copie as linhas da tabela dinâmica no Excel (colunas na mesma ordem) e use <b>Importar linhas coladas</b>. As linhas com o mesmo voo são somadas automaticamente. Preencha também as colunas Produto, SLA, Ação, Base atual, Origem e Descrição: elas alimentam os filtros do painel.</p>
-    <div class="sets" id="sets"></div>
-    <div id="secs"></div>
+    <div class="bar"><h1>Preenchimento</h1><span class="st" id="st"></span></div>
+    <section class="ec">
+      <div class="eh"><h3>1. Cole a planilha MONITORAMENTO</h3><span id="info"></span></div>
+      <p class="nota">No Excel, abra a aba <b>MONITORAMENTO</b>, selecione tudo (<b>Ctrl+A</b>), copie (<b>Ctrl+C</b>), clique na caixa abaixo e cole (<b>Ctrl+V</b>). Pode colar com ou sem a linha de cabeçalho. O painel é calculado e salvo sozinho.</p>
+      <textarea id="paste" class="drop" rows="3" placeholder="Clique aqui e pressione Ctrl+V" aria-label="Colar a planilha do Excel"></textarea>
+      <div class="sets" style="margin-top:14px">
+        <label>Data de referência (o &ldquo;hoje&rdquo; do monitoramento)<input type="date" id="ref"></label>
+        <label>Formato das datas na planilha<select id="dfmt"><option value="mdy">Mês/dia/ano (como no seu print: 11/21/2026)</option><option value="dmy">Dia/mês/ano (21/11/2026)</option></select></label>
+      </div>
+      <p class="nota" id="sum"></p>
+      <div class="ea"><button id="clear">Limpar dados</button></div>
+    </section>
+    <details class="ec">
+      <summary>2. Regras dos blocos (avançado)</summary>
+      <p class="nota">São os mesmos filtros das suas tabelas dinâmicas. Deixe vazio para &ldquo;todos&rdquo;. Separe valores por vírgula. Use <b>(vazio)</b> para células em branco, <b>hoje</b>, <b>hoje+1</b>, <b>hoje+2</b> nas datas, e <b>*</b> no fim para &ldquo;começa com&rdquo; (ex.: 2-Em Con*). Se um total não bater com a sua tabela dinâmica, ajuste aqui.</p>
+      <table id="rules"></table>
+      <div id="dls"></div>
+      <p class="nota" id="vals"></p>
+      <div class="ea"><button id="rst">Restaurar regras padrão</button></div>
+    </details>
   </div>
 </div>
 
@@ -145,126 +198,203 @@ footer{display:flex;justify-content:space-between;font-size:20px;color:var(--ice
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const $=id=>document.getElementById(id);
 const f=n=>(+n||0).toLocaleString("pt-BR");
-const toNum=s=>{s=String(s??"").trim().replace(/\./g,"").replace(",",".");const n=parseFloat(s);return isNaN(n)?0:n};
+const p2=n=>String(n).padStart(2,"0");
+const MES=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const lab=i=>i?`${+i.slice(8)}/${MES[+i.slice(5,7)-1]}`:"—";
+const br=i=>i?`${i.slice(8)}/${i.slice(5,7)}/${i.slice(0,4)}`:"";
+const addD=(i,n)=>{const d=new Date(i+"T00:00:00Z");d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
+const todayISO=()=>{const t=new Date();return`${t.getFullYear()}-${p2(t.getMonth()+1)}-${p2(t.getDate())}`};
+const hhmm=t=>new Date(t).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+const norm=s=>String(s??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[\s_]+/g,"");
 
-const VQ=[["voo","Voo"],["dest","Destino"],["qtd","Qtd AWB","n"]];
+/* ---------- configuração ---------- */
+const COLS=["pedido","integracao","awb","bag","sla","origem","destino","baseatual","dtvoo","nvoo","descricao","acao","produto","ocorrencia","romaneio","dtentrega","hrentrega","uld","class","eddamz","originamz","nodeamz"];
 const EX=[["produto","Produto"],["sla","SLA"],["acao","Ação"],["base","Base atual"],["origem","Origem"],["desc","Descrição"]];
-const SEC=[
- {k:"d1",t:"Planejado/Embarcando D1",c:VQ},
- {k:"d2",t:"Planejado/Embarcando D2",c:VQ},
- {k:"unit",t:"Unitizados/Consolidados",c:[["dest","Destino"],["a","Vence dia 1","n"],["b","Vence dia 2","n"]]},
- {k:"outras",t:"Em outras bases",c:[["voo","Voo"],["dest","Base"],["qtd","Qtd AWB","n"]]},
- {k:"pend",t:"Pendências",c:[["dest","Base"],["qtd","Qtd AWB","n"]]},
- {k:"msca",t:"MSCA",c:[["dest","Base"],["qtd","Qtd AWB","n"]]},
- {k:"reass",t:"Reassinado",c:[["voo","Voo"],["dest","Base"],["qtd","Qtd AWB","n"]]}
-];
-SEC.forEach(s=>{s.c=s.c.concat(EX)});
-const R=(v,d,q)=>({voo:v,dest:d,qtd:q});
-/* dados iniciais (prints de 24/11) — depois de salvar, o que estiver na aba Preenchimento prevalece */
-const DEF={S:{ref:"Voos de 24/11",sla1:"25/nov",sla2:"26/nov"},D:{
- d1:[R("AD2060","DAM1",3727),R("AD2060","SPO9",2554),R("AD2060","MAO",637),R("AD2040","BEL",1070),R("AD2040","BELT1",748),R("AD2040","ANA01",127),R("AD2040","MCP",25),R("AD2040","STM",1),
-     R("AD4765","DSA8",364),R("AD4765","SSA02",144),R("AD4765","SSA9",62),R("AD4942","DSA8",256),R("AD4942","SSA02",135),R("AD4942","SSAH1",66),R("AD4712","FOR",432),R("AD2922","REC",389),R("AD7725T","REC",89),R("AD2806","PMWLH",1)],
- d2:[R("AD2040","MCP",718),R("AD2040","MAB",436),R("AD2040","STM",385),R("AD2040","ATM",75),R("AD2040","BELT1",39),R("AD2943","BVB",681),R("AD2806","PMW",275),R("AD2806","PMWLH",382),R("AD4043","CKS",132),R("AD4680","OAL",37),R("AD2608","JJG",18),R("AD4840","MAB",2)],
- unit:[["REC",1619,0],["FOR",1411,0],["DSA8",212,0],["SSA9",192,0],["BEL",169,0],["BELT1",112,14],["IOS",78,0],["BPS",77,0],["ANA01",41,0],["RBR",41,129],["SPO9",18,0],["BVB",13,397],["DAM1",8,0],["STM",5,0],["PMWLH",1,2],["PMW",0,80],["QBU01",0,54],["JDO",0,64],["ROO",0,41],["PVH",0,2],["CKS",0,154],["MAB",0,18],["IMP",0,649]].map(x=>({dest:x[0],a:x[1],b:x[2]})),
- outras:[R("AD2744","REC",224)],pend:[R("","BSB02",5),R("","MAO",1)],msca:[],reass:[R("AD2784","PNG01",1)]}};
-DEF.D.d1.forEach(r=>r.sla="25/nov");DEF.D.d2.forEach(r=>r.sla="26/nov");Object.keys(DEF.D).forEach(k=>DEF.D[k].forEach(r=>{r.base="VCP";r.origem="VCP"}));
-let F={produto:"",sla:"",acao:"",base:"",origem:"",desc:""};
-let S=JSON.parse(JSON.stringify(DEF.S)),D=JSON.parse(JSON.stringify(DEF.D)),dirty=false,db=null;
+const FLD=["voo","produto","sla","acao","base","origem","desc","class","dtvoo"];
+const FL={voo:"Voo",produto:"Produto",sla:"SLA",acao:"Ação",base:"Base atual",origem:"Origem",desc:"Descrição",class:"Class",dtvoo:"DT Voo"};
+const DATEF=new Set(["sla","dtvoo"]);
+const BLK=[["d1","Planejado D1"],["d2","Planejado D2"],["unit","Unitizados"],["outras","Em outras bases"],["pend","Pendências"],["msca","MSCA"],["reass","Reassinado"]];
+const RD={
+  d1:{base:"VCP",origem:"VCP",sla:"hoje+1",dtvoo:"hoje"},
+  d2:{base:"VCP",origem:"VCP",sla:"hoje+2",dtvoo:"hoje"},
+  unit:{base:"VCP",origem:"VCP",sla:"hoje+1,hoje+2",voo:"(vazio)",desc:"Unitizado"},
+  outras:{origem:"VCP",sla:"hoje+1",class:"2-Em Con*"},
+  pend:{produto:"PREMIUM_CORP*",base:"VCP",origem:"VCP",sla:"hoje",dtvoo:"(vazio)"},
+  msca:{acao:"MSCA",base:"VCP",origem:"VCP"},
+  reass:{acao:"Reassigned",origem:"VCP",sla:"hoje+1"}};
+const cl=o=>JSON.parse(JSON.stringify(o));
+let S={ref:todayISO(),dfmt:"mdy",at:0},RULES=cl(RD),RECS=[],F={produto:"",sla:"",acao:"",base:"",origem:"",desc:""},dirty=false,db=null,tmr=null;
+const mergeRules=r=>{const o=cl(RD);BLK.forEach(([k])=>{o[k]=Object.assign({},o[k],r&&r[k]||{})});return o};
+
+/* ---------- leitura da planilha colada ---------- */
+function pd(s,fmt){const m=String(s||"").match(/(\d{1,4})[\/\-.](\d{1,2})[\/\-.](\d{1,4})/);if(!m)return"";
+  const a=+m[1],b=+m[2],c=+m[3];let y,mo,d;
+  if(m[1].length===4){y=a;mo=b;d=c}else{y=c<100?2000+c:c;if(a>12){d=a;mo=b}else if(b>12){mo=a;d=b}else if(fmt==="dmy"){d=a;mo=b}else{mo=a;d=b}}
+  if(mo<1||mo>12||d<1||d>31)return"";return`${y}-${p2(mo)}-${p2(d)}`}
+function ingest(text){
+  const lines=text.split(/\r?\n/).filter(l=>l.trim());if(!lines.length)return null;
+  const h=lines[0].split("\t").map(c=>norm(c).replace(/[^a-z0-9]/g,"")),idx={};let start=0,hdr=false;
+  if(h.includes("awb")&&(h.includes("baseatual")||h.includes("sla"))){COLS.forEach(c=>idx[c]=h.indexOf(c));start=1;hdr=true}else COLS.forEach((c,i)=>idx[c]=i);
+  const g=(p,c)=>idx[c]>=0?(p[idx[c]]||"").trim():"";
+  const m=new Map();let n=0;
+  for(let i=start;i<lines.length;i++){const p=lines[i].split("\t");if(idx.awb>=0&&!g(p,"awb"))continue;
+    const r=[g(p,"nvoo"),g(p,"destino"),g(p,"produto"),pd(g(p,"sla"),S.dfmt),g(p,"acao"),g(p,"baseatual"),g(p,"origem"),g(p,"descricao"),g(p,"class"),pd(g(p,"dtvoo"),S.dfmt)].join("\u0001");
+    m.set(r,(m.get(r)||0)+1);n++}
+  if(!n)return{n:0,hdr};
+  RECS=[...m.entries()].map(([k,q])=>{const a=k.split("\u0001");return{voo:a[0],dest:a[1],produto:a[2],sla:a[3],acao:a[4],base:a[5],origem:a[6],desc:a[7],class:a[8],dtvoo:a[9],qtd:q}});
+  return{n,hdr,miss:["sla","baseatual","nvoo","destino","descricao","acao","class"].filter(c=>idx[c]<0)};
+}
+
+/* ---------- regras (equivalem aos filtros da tabela dinâmica) ---------- */
+function tokDate(k){let m=k.match(/^hoje\s*([+-]\s*\d+)?$/i);if(m)return addD(S.ref,m[1]?parseInt(m[1].replace(/\s/g,"")):0);
+  m=k.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/);if(m){let y=m[3]?+m[3]:+S.ref.slice(0,4);if(y<100)y+=2000;return`${y}-${p2(+m[2])}-${p2(+m[1])}`}return null}
+function mk(fld,rule){const t=String(rule||"").split(",").map(x=>x.trim()).filter(Boolean);if(!t.length)return null;
+  const dates=new Set(),vals=new Set(),pre=[];let vz=false;
+  t.forEach(k=>{if(norm(k)==="(vazio)")vz=true;else if(DATEF.has(fld)){const d=tokDate(k);if(d)dates.add(d)}else{const b=norm(k);b.endsWith("*")?pre.push(b.slice(0,-1)):vals.add(b)}});
+  return v=>{if(v==="")return vz;if(DATEF.has(fld))return dates.has(v);const a=norm(v);return vals.has(a)||pre.some(p=>a.startsWith(p))}}
+function derive(){
+  const out={};
+  BLK.forEach(([k])=>{
+    const tests=FLD.map(fl=>[fl,mk(fl,RULES[k][fl])]).filter(x=>x[1]);
+    const rows=RECS.filter(r=>EX.every(e=>!F[e[0]]||(k==="unit"&&e[0]==="sla")||r[e[0]]===F[e[0]])&&tests.every(([fl,fn])=>fn(r[fl])));
+    if(k==="unit"){
+      let ds=String(RULES.unit.sla||"").split(",").map(x=>tokDate(x.trim())).filter(Boolean);
+      if(!ds.length)ds=[...new Set(rows.map(r=>r.sla))].sort();
+      const m=new Map();rows.forEach(r=>{const o=m.get(r.dest)||{dest:r.dest,a:0,b:0};if(r.sla===ds[0])o.a+=r.qtd;else if(r.sla===ds[1])o.b+=r.qtd;m.set(r.dest,o)});
+      out.unit=[...m.values()];out.ul=[lab(ds[0]||addD(S.ref,1)),lab(ds[1]||addD(S.ref,2))];
+    }else{
+      const m=new Map(),byDest=(k==="pend"||k==="msca");
+      rows.forEach(r=>{const kk=byDest?r.dest:r.voo+"\u0001"+r.dest,o=m.get(kk)||{voo:r.voo,dest:r.dest,qtd:0};o.qtd+=r.qtd;m.set(kk,o)});
+      out[k]=[...m.values()];
+    }});
+  return out}
 
 /* ---------- Painel TV ---------- */
-function grp(rows,key="voo"){const m=new Map();rows.forEach(r=>{const q=toNum(r.qtd);if(!r[key]&&!q)return;const k=r[key]||"—",o=m.get(k)||{n:k,v:0,d:[]};o.v+=q;if(key==="voo"&&r.dest)o.d.push([r.dest,q]);m.set(k,o)});return[...m.values()].sort((a,b)=>b.v-a.v)}
+const sm=a=>a.reduce((s,r)=>s+r.qtd,0);
+function grp(rows,key="voo"){const m=new Map();rows.forEach(r=>{if(!r.qtd)return;const k=r[key]||"—",o=m.get(k)||{n:k,v:0,d:[]};o.v+=r.qtd;if(key==="voo"&&r.dest)o.d.push([r.dest,r.qtd]);m.set(k,o)});return[...m.values()].sort((a,b)=>b.v-a.v)}
 function rowsHtml(g){if(!g.length)return'<div class="empty">Sem volumes</div>';const m=Math.max(...g.map(x=>x.v),1),sh=g.slice(0,8),ex=g.slice(8);
   const l=sh.map(x=>({n:x.n,v:x.v,s:x.d.sort((a,b)=>b[1]-a[1]).map(d=>esc(d[0])+" "+f(d[1])).join(" · ")}));
-  if(ex.length)l.push({n:"Outros "+ex.length+" voos",v:ex.reduce((s,x)=>s+x.v,0),s:""});
+  if(ex.length)l.push({n:"Outros "+ex.length+(ex.length>1?" itens":" item"),v:ex.reduce((s,x)=>s+x.v,0),s:""});
   return l.map(x=>`<div class="r"><div class="top"><span class="nm">${esc(x.n)}</span><span class="vl">${f(x.v)}</span></div><div class="track"><i style="width:${Math.max(x.v/m*100,1)}%;background:var(--blue)"></i></div><div class="ds">${x.s}</div></div>`).join("")}
-function sumBy(rows){const m=new Map();rows.forEach(r=>{const q=toNum(r.qtd);if(!r.dest&&!q)return;m.set(r.dest||"—",(m.get(r.dest||"—")||0)+q)});return[...m.entries()]}
 function card(t,v,p,c){return`<div class="card ${c}"><h3>${esc(t)}</h3><div class="v">${f(v)}</div><p>${esc(p)}</p></div>`}
-function fd(){const o={};SEC.forEach(s=>{o[s.k]=D[s.k].filter(r=>EX.every(e=>!F[e[0]]||(s.k==="unit"&&e[0]==="sla")||String(r[e[0]]||"").trim()===F[e[0]]))});return o}
-function render(){const D=fd();
-  const g1=grp(D.d1),g2=grp(D.d2),t1=g1.reduce((s,x)=>s+x.v,0),t2=g2.reduce((s,x)=>s+x.v,0);
-  const U=D.unit.map(r=>({n:r.dest||"—",a:toNum(r.a),b:toNum(r.b)})).filter(x=>x.a||x.b).sort((a,b)=>(b.a+b.b)-(a.a+a.b));
+function render(){
+  const D=derive(),L1=lab(addD(S.ref,1)),L2=lab(addD(S.ref,2));
+  const g1=grp(D.d1),g2=grp(D.d2),t1=sm(D.d1),t2=sm(D.d2);
+  const U=D.unit.map(r=>({n:r.dest||"—",a:r.a,b:r.b})).filter(x=>x.a||x.b).sort((a,b)=>(b.a+b.b)-(a.a+a.b));
   const ua=U.reduce((s,x)=>s+x.a,0),ub=U.reduce((s,x)=>s+x.b,0),top=U.slice(0,8),rest=U.slice(8);
   if(rest.length)top.push({n:"Outros "+rest.length+" destinos",a:rest.reduce((s,x)=>s+x.a,0),b:rest.reduce((s,x)=>s+x.b,0)});
-  const sOut=D.outras.reduce((s,r)=>s+toNum(r.qtd),0),sP=sumBy(D.pend),tP=sP.reduce((s,x)=>s+x[1],0),sM=sumBy(D.msca),tM=sM.reduce((s,x)=>s+x[1],0),sR=D.reass.reduce((s,r)=>s+toNum(r.qtd),0);
-  const txt=(rows)=>rows.slice(0,2).map(r=>[r.voo,r.dest].filter(Boolean).join(" · ")).join(" | ")||"Sem volumes";
-  $("sub").textContent=$("sub2").textContent=S.ref;
-  $("tot").innerHTML=card("Planejado D1",t1,"Vence "+S.sla1,"")+card("Planejado D2",t2,"Vence "+S.sla2,"")+card("Unitizados",ua+ub,S.sla1+" "+f(ua)+" · "+S.sla2+" "+f(ub),"");
+  const sOut=sm(D.outras),tP=sm(D.pend),tM=sm(D.msca),sR=sm(D.reass);
+  $("sub").textContent=$("sub2").textContent=RECS.length?`Referência ${br(S.ref)}${S.at?" · atualizado às "+hhmm(S.at):""}`:"Sem dados — cole a planilha na aba Preenchimento";
+  $("tot").innerHTML=card("Planejado D1",t1,"Vence "+L1,"")+card("Planejado D2",t2,"Vence "+L2,"")+card("Unitizados",ua+ub,D.ul[0]+" "+f(ua)+" · "+D.ul[1]+" "+f(ub),"");
   const pn=(t,v,c,h)=>`<section class="panel"><h2>${t}</h2><div class="big ${c}">${f(v)}</div><div class="rows">${h}</div></section>`;
   $("p2g").innerHTML=pn("Em outras bases",sOut,sOut>0?"warn":"ok",rowsHtml(grp(D.outras)))+pn("Pendências",tP,tP>0?"bad":"ok",rowsHtml(grp(D.pend,"dest")))+pn("MSCA",tM,tM>0?"bad":"ok",rowsHtml(grp(D.msca,"dest")))+pn("Reassinado",sR,sR>0?"warn":"ok",rowsHtml(grp(D.reass)));
-  $("s1").textContent=f(t1)+" AWB · por voo · vence "+S.sla1;
-  $("s2").textContent=f(t2)+" AWB · por voo · vence "+S.sla2;
+  $("s1").textContent=f(t1)+" AWB · por voo · vence "+L1;
+  $("s2").textContent=f(t2)+" AWB · por voo · vence "+L2;
   $("s3").textContent=f(ua+ub)+" AWB · por destino";
-  $("l1").textContent="Vence "+S.sla1;$("l2").textContent="Vence "+S.sla2;
+  $("l1").textContent="Vence "+D.ul[0];$("l2").textContent="Vence "+D.ul[1];
   $("p1").innerHTML=rowsHtml(g1);$("p2").innerHTML=rowsHtml(g2);
   const m=Math.max(...top.map(x=>x.a+x.b),1);
   $("p3").innerHTML=top.length?top.map(x=>`<div class="r"><div class="top"><span class="nm">${esc(x.n)}</span><span class="vl">${f(x.a+x.b)}</span></div><div class="track"><i style="width:${x.a/m*100}%;background:var(--blue)"></i><i style="width:${x.b/m*100}%;background:var(--ice)"></i></div></div>`).join(""):'<div class="empty">Sem volumes</div>';
+  $("sum").textContent=RECS.length?`Totais calculados: D1 ${f(t1)} · D2 ${f(t2)} · Unitizados ${f(ua+ub)} · Em outras bases ${f(sOut)} · Pendências ${f(tP)} · MSCA ${f(tM)} · Reassinado ${f(sR)}. Compare com a sua aba Dinâmica Azl.`:"";
 }
-
 function tick(){const d=new Date(),hm=d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});$("hora").textContent=$("hora2").textContent=hm;
   $("data").textContent=d.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"})}
 function fit(){const w=$("vTv"),s=Math.min(w.clientWidth/1920,w.clientHeight/1080);if(!s)return;window.SC=s;$("pages").style.transform=`scale(${s})`;$("pgw").style.width=1920*s+"px";$("pgw").style.height=2160*s+"px"}
 new ResizeObserver(fit).observe($("vTv"));
 
 /* ---------- Preenchimento ---------- */
-function edit(){
-  $("sets").innerHTML=[["ref","Subtítulo do painel"],["sla1","Vencimento dia 1"],["sla2","Vencimento dia 2"]].map(a=>`<label>${a[1]}<input data-s="${a[0]}" value="${esc(S[a[0]])}"></label>`).join("");
-  $("secs").innerHTML=SEC.map(s=>`<section class="ec"><div class="eh"><h3>${s.t}</h3><span>${D[s.k].length} linhas</span></div>
-  <table><thead><tr>${s.c.map(c=>`<th>${c[1]}</th>`).join("")}<th></th></tr></thead><tbody>${D[s.k].map((r,i)=>`<tr>${s.c.map(c=>`<td><input data-k="${s.k}" data-i="${i}" data-f="${c[0]}" ${c[2]?'inputmode="decimal"':""} aria-label="${c[1]}" value="${esc(r[c[0]])}"></td>`).join("")}<td><button class="x" data-del="${s.k}:${i}" aria-label="Remover linha">×</button></td></tr>`).join("")}</tbody></table>
-  <div class="ea"><button data-add="${s.k}">+ Linha</button><button data-clr="${s.k}">Limpar bloco</button></div>
-  <textarea data-paste="${s.k}" placeholder="Cole aqui linhas copiadas do Excel (colunas na mesma ordem da tabela)"></textarea><button data-imp="${s.k}">Importar linhas coladas</button></section>`).join("");
+function rulesUI(){
+  $("rules").innerHTML="<thead><tr><th>Bloco</th>"+FLD.map(x=>`<th>${FL[x]}</th>`).join("")+"</tr></thead><tbody>"+
+    BLK.map(([k,t])=>`<tr><td><b>${t}</b></td>${FLD.map(x=>`<td><input data-rb="${k}" data-rf="${x}" list="dl-${x}" placeholder="(todos)" aria-label="${t} — ${FL[x]}" value="${esc(RULES[k][x]||"")}"></td>`).join("")}</tr>`).join("")+"</tbody>";
+  const vals=x=>[...new Set(RECS.map(r=>x==="voo"?r.voo:x==="desc"?r.desc:r[x]).filter(Boolean))].sort();
+  $("dls").innerHTML=FLD.map(x=>`<datalist id="dl-${x}">${(DATEF.has(x)?["hoje","hoje+1","hoje+2","(vazio)"]:["(vazio)"].concat(vals(x).slice(0,80))).map(v=>`<option value="${esc(v)}">`).join("")}</datalist>`).join("");
+  $("vals").innerHTML=RECS.length?["desc","acao","class","produto"].map(x=>`<b>${FL[x]}:</b> ${esc(vals(x).slice(0,30).join(" · "))}`).join("<br>"):"";
+  $("ref").value=S.ref;$("dfmt").value=S.dfmt;
 }
-function mark(){dirty=true;$("st").textContent="Alterações ainda não salvas";render()}
+const later=()=>{dirty=true;$("st").textContent="Salvando…";clearTimeout(tmr);tmr=setTimeout(save,900)};
 document.addEventListener("input",e=>{const t=e.target;
-  if(t.dataset.s){S[t.dataset.s]=t.value;mark()}
-  else if(t.dataset.k){D[t.dataset.k][+t.dataset.i][t.dataset.f]=t.value;mark()}});
-document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;const d=t.dataset;
-  const sec=k=>SEC.find(s=>s.k===k);
-  if(d.add){const o={};sec(d.add).c.forEach(c=>o[c[0]]="");D[d.add].push(o);edit();mark()}
-  else if(d.del){const[k,i]=d.del.split(":");D[k].splice(+i,1);edit();mark()}
-  else if(d.clr){if(confirm("Limpar todas as linhas deste bloco?")){D[d.clr]=[];edit();mark()}}
-  else if(d.imp){const ta=document.querySelector(`textarea[data-paste="${d.imp}"]`),cs=sec(d.imp).c;
-    ta.value.split(/\r?\n/).filter(l=>l.trim()).forEach(l=>{const p=l.split(/\t|;/),o={};cs.forEach((c,j)=>{const v=(p[j]??"").trim();o[c[0]]=c[2]?String(toNum(v)):v});D[d.imp].push(o)});
-    ta.value="";edit();mark()}});
+  if(t.dataset.rb){RULES[t.dataset.rb][t.dataset.rf]=t.value;render();later()}});
+$("ref").onchange=e=>{if(e.target.value){S.ref=e.target.value;render();later()}};
+$("dfmt").onchange=e=>{S.dfmt=e.target.value;$("info").textContent="O formato vale a partir da próxima colagem."};
+$("rst").onclick=()=>{RULES=cl(RD);rulesUI();render();later()};
+$("clear").onclick=()=>{if(confirm("Apagar os dados do painel?")){RECS=[];render();rulesUI();later()}};
+function go(text){$("st").textContent="Processando…";setTimeout(()=>{
+  const r=ingest(text);
+  if(!r||!r.n){$("info").textContent="Nenhuma linha válida encontrada.";$("st").textContent="";return}
+  S.ref=todayISO();
+  $("info").textContent=`${f(r.n)} linhas lidas · ${f(RECS.length)} combinações · ${r.hdr?"cabeçalho reconhecido":"sem cabeçalho (usei a ordem padrão da planilha)"}${r.miss&&r.miss.length?" · faltam colunas: "+r.miss.join(", "):""}`;
+  render();rulesUI();later()},30)}
+$("paste").addEventListener("paste",e=>{e.preventDefault();go((e.clipboardData||window.clipboardData).getData("text"))});
+$("paste").addEventListener("input",e=>{const t=e.target.value;if(t){e.target.value="";go(t)}});
 
+/* ---------- salvar / carregar ---------- */
+async function gz(str){const cs=new CompressionStream("gzip"),w=cs.writable.getWriter();w.write(new TextEncoder().encode(str));w.close();
+  const b=new Uint8Array(await new Response(cs.readable).arrayBuffer());let s="";for(let i=0;i<b.length;i+=8192)s+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return btoa(s)}
+async function ungz(b64){const bin=atob(b64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+  const ds=new DecompressionStream("gzip"),w=ds.writable.getWriter();w.write(u);w.close();return new Response(ds.readable).text()}
 async function save(){
-  const payload={S,D},json=JSON.stringify(payload);
-  try{localStorage.setItem("azul_monitor",json)}catch(e){}
-  if(db){try{await db.doc("monitor/atual").set({json,at:Date.now()});dirty=false;$("st").textContent="Salvo para todos às "+new Date().toLocaleTimeString("pt-BR");return}
-    catch(e){$("st").textContent="Salvo só neste navegador (sem permissão para compartilhar).";return}}
-  dirty=false;$("st").textContent="Salvo só neste navegador.";
-}
-$("save").onclick=save;
-function apply(json){try{const p=JSON.parse(json);if(p.S&&p.D){S=Object.assign(S,p.S);SEC.forEach(s=>{D[s.k]=Array.isArray(p.D[s.k])?p.D[s.k]:[]});return true}}catch(e){}return false}
+  const json=JSON.stringify(RECS.map(r=>[r.voo,r.dest,r.produto,r.sla,r.acao,r.base,r.origem,r.desc,r.class,r.dtvoo,r.qtd]));
+  let enc="none",data=json;if(window.CompressionStream){try{data=await gz(json);enc="gz"}catch(e){}}
+  S.at=Date.now();const P=JSON.stringify({S,RULES,enc,data,at:S.at}),ok=[];
+  try{localStorage.setItem("azul_monitor2",P);ok.push("neste navegador")}catch(e){}
+  if(db){try{await db.doc("monitor/atual").set({json:P,at:S.at});ok.push("para todos")}catch(e){}}
+  dirty=false;render();
+  $("st").textContent=ok.length?`Salvo (${ok.join(" e ")}) às ${hhmm(S.at)}`:"Não foi possível salvar: o arquivo ficou grande demais para o navegador."}
+async function apply(str){try{const p=JSON.parse(str);S=Object.assign(S,p.S||{});S.at=p.at||S.at;RULES=mergeRules(p.RULES);
+  const arr=JSON.parse(p.enc==="gz"?await ungz(p.data):p.data);
+  RECS=arr.map(a=>({voo:a[0],dest:a[1],produto:a[2],sla:a[3],acao:a[4],base:a[5],origem:a[6],desc:a[7],class:a[8],dtvoo:a[9],qtd:a[10]}));return true}catch(e){return false}}
 
 /* ---------- Filtros (discretos) ---------- */
-function flBuild(){$("flg").innerHTML=EX.map(e=>{const k=e[0],vals=[...new Set(SEC.flatMap(s=>D[s.k].map(r=>String(r[k]||"").trim())).filter(Boolean))].sort();
-  return `<label>${e[1]}<select data-fl="${k}"><option value="">(Todos)</option>${vals.map(v=>`<option value="${esc(v)}"${F[k]===v?" selected":""}>${esc(v)}</option>`).join("")}</select></label>`}).join("")}
+function flBuild(){$("flg").innerHTML=EX.map(e=>{const k=e[0],vals=[...new Set(RECS.map(r=>r[k]).filter(Boolean))].sort();
+  return`<label>${e[1]}<select data-fl="${k}"><option value="">(Todos)</option>${vals.map(v=>`<option value="${esc(v)}"${F[k]===v?" selected":""}>${esc(k==="sla"?lab(v):v)}</option>`).join("")}</select></label>`}).join("")}
 function flCount(){const n=Object.values(F).filter(Boolean).length;$("flb").textContent=n?"Filtros ("+n+")":"Filtros";$("flb").classList.toggle("act",n>0)}
 $("flb").onclick=()=>{const p=$("flp"),open=p.classList.contains("hide");if(open)flBuild();p.classList.toggle("hide",!open);$("flb").setAttribute("aria-expanded",open)};
 $("flg").addEventListener("change",e=>{const k=e.target.dataset.fl;if(k){F[k]=e.target.value;flCount();render()}});
 $("flc").onclick=()=>{Object.keys(F).forEach(k=>F[k]="");flBuild();flCount();render()};
 let at=null;$("auto").onchange=e=>{clearInterval(at);if(e.target.checked)at=setInterval(()=>{const w=$("vTv"),h=1080*(window.SC||1);w.scrollTo({top:w.scrollTop>h/2?0:h,behavior:"smooth"})},20000)};
+
 /* ---------- Menu / modo TV ---------- */
-function show(){const ed=location.hash==="#preenchimento";
+function show(){const ed=ROLE==="admin"&&location.hash==="#preenchimento";
   $("vTv").classList.toggle("hide",ed);$("vEd").classList.toggle("hide",!ed);
   $("nM").classList.toggle("on",!ed);$("nP").classList.toggle("on",ed);$("tvBtn").classList.toggle("hide",ed);$("fl").classList.toggle("hide",ed);if(!ed)fit()}
 addEventListener("hashchange",show);
 $("tvBtn").onclick=()=>{document.body.classList.add("tv");try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}setTimeout(fit,100)};
-function exitTv(){document.body.classList.remove("tv");if(document.fullscreenElement)document.exitFullscreen();setTimeout(fit,100)}
+function exitTv(){if(ROLE==="viewer")return;document.body.classList.remove("tv");if(document.fullscreenElement)document.exitFullscreen();setTimeout(fit,100)}
 $("exitTv").onclick=exitTv;
 document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&document.body.classList.contains("tv"))exitTv()});
 
 /* ---------- Início ---------- */
-try{const l=localStorage.getItem("azul_monitor");if(l)apply(l)}catch(e){}
+/* ---------- Login ---------- */
+let ROLE=null;
+function applyRole(r,gesture){
+  ROLE=r;const b=document.body,x=$("exitTv");
+  try{sessionStorage.removeItem("azul_role");localStorage.removeItem("azul_role_v");if(r==="admin")sessionStorage.setItem("azul_role","admin");if(r==="viewer")localStorage.setItem("azul_role_v","1")}catch(e){}
+  b.classList.remove("lo","v","tv");
+  if(!r){b.classList.add("lo");if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});$("lu").value="";$("lp").value="";$("le").textContent="";setTimeout(()=>$("lu").focus(),50);return}
+  const t=r==="viewer"?"Voltar ao login":"Sair do modo TV";x.setAttribute("title",t);x.setAttribute("aria-label",t);
+  if(location.hash!=="#monitoramento")location.hash="#monitoramento";
+  if(r==="viewer"){b.classList.add("v","tv");if(gesture){try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}}
+  show();setTimeout(fit,100)}
+const doLogin=()=>{const u=norm($("lu").value),p=$("lp").value;
+  if(u==="torredecontrole"&&p==="12345678"){$("lp").value="";applyRole("admin")}else{$("le").textContent="Usuário ou senha incorretos.";$("lp").value="";$("lp").focus()}};
+$("lb").onclick=doLogin;
+["lu","lp"].forEach(i=>$(i).addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();doLogin()}}));
+$("lv").onclick=()=>applyRole("viewer",true);
+$("outBtn").onclick=()=>applyRole(null);
+$("eye").onclick=()=>{const p=$("lp"),s=p.type==="password";p.type=s?"text":"password";$("eye").textContent=s?"Ocultar":"Mostrar";$("eye").setAttribute("aria-pressed",s)};
+$("exitTv").onclick=()=>{ROLE==="viewer"?applyRole(null):exitTv()};
+addEventListener("hashchange",()=>{if(ROLE!=="admin"&&location.hash==="#preenchimento")location.hash="#monitoramento"});
 if(!location.hash)location.hash="#monitoramento";
-edit();render();tick();show();setInterval(tick,1000);
-$("st").textContent="Dados carregados.";
+let r0=null;try{r0=sessionStorage.getItem("azul_role")==="admin"?"admin":(localStorage.getItem("azul_role_v")?"viewer":null)}catch(e){}
+applyRole(r0,false);
+render();rulesUI();tick();show();setInterval(tick,1000);
+$("st").textContent="Cole a planilha para começar.";
+try{const l=localStorage.getItem("azul_monitor2");if(l)apply(l).then(ok=>{if(ok){rulesUI();render();$("st").textContent="Dados carregados."}})}catch(e){}
 (async()=>{
   if(!(window.claude&&claude.use))return;
   try{db=await claude.use("db")}catch(e){db=null}
-  if(!db){$("st").textContent="Salvando apenas neste navegador.";return}
-  let t=setTimeout(()=>{},10000);
-  db.doc("monitor/atual").onSnapshot(s=>{clearTimeout(t);if(s.exists&&!dirty){const d=s.data();if(d&&d.json&&apply(d.json)){edit();render();$("st").textContent="Sincronizado."}}},()=>{clearTimeout(t)});
+  if(!db)return;
+  db.doc("monitor/atual").onSnapshot(async s=>{if(!s.exists||dirty)return;const d=s.data();if(d&&d.json&&d.at!==S.at&&await apply(d.json)){rulesUI();render();$("st").textContent="Sincronizado."}},()=>{});
 })();
 </script>
 </body>
