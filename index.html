@@ -122,6 +122,34 @@ body.lo aside,body.lo #main,body.lo #exitTv{display:none!important}
 .cf{font-size:14px;font-weight:800;color:var(--ice);margin:12px 0 6px}
 .chp{display:flex;flex-wrap:wrap;gap:6px}.chp button{padding:6px 10px;font-size:13px}
 .chp button[aria-pressed=true]{background:var(--ok);color:var(--navy);border-color:var(--ok)}
+#vPf,#vPe{position:absolute;inset:0}#vPf{overflow:hidden}#vPe{overflow:auto;padding:0 28px 60px}
+#pfw{margin:0 auto;position:relative}#pfs{transform-origin:0 0}
+main.g2{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:20px;min-height:0}
+.pfp{gap:12px}
+.pfh{display:flex;align-items:baseline;justify-content:space-between;gap:16px}.pfh h2{font-size:44px;font-weight:800;color:var(--blue);margin:0}.pfh span{font-size:20px;color:var(--ice)}
+.pfg{display:grid;gap:10px;align-items:center}
+.pfd{text-align:center;font-size:19px;font-weight:800;color:var(--ice)}.pfd small{display:block;font-size:14px;font-weight:600;text-transform:capitalize}
+.pfc{font-size:26px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pfc .dot{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:10px}
+.pt{border-radius:12px;padding:14px 4px;text-align:center;font-weight:800;font-size:var(--tf,30px);background:var(--navy);border:2px solid var(--line);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pt.ok{color:var(--ok);border-color:var(--ok)}.pt.warn{color:var(--warn);border-color:var(--warn)}.pt.bad{color:var(--bad);border-color:var(--bad)}
+.pt.so,.pt.nd{color:var(--ice);font-size:calc(var(--tf,30px)*.6);font-weight:700;opacity:.85}
+.pfv{text-align:right;font-size:30px;font-weight:800}.pfv.ok{color:var(--ok)}.pfv.warn{color:var(--warn)}.pfv.bad{color:var(--bad)}
+.chart{flex:1;min-height:0;display:flex}.chart svg{width:100%;height:100%}
+.pfa{height:250px;flex-shrink:0}
+.al{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-top:10px}
+.ai{display:flex;gap:12px;align-items:flex-start;font-size:20px;line-height:1.25}.ai span:last-child{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tag{padding:2px 12px;border-radius:999px;font-size:15px;font-weight:800;color:var(--navy);flex-shrink:0}.tag.a{background:var(--bad)}.tag.m{background:var(--warn)}.tag.b{background:var(--blue)}
+.lgd{font-size:16px;color:var(--ice)}.lgd i{display:inline-block;width:12px;height:12px;border-radius:50%;margin:0 6px 0 16px;vertical-align:-1px}
+.ar{display:grid;grid-template-columns:130px 1fr 52px;gap:8px;margin-bottom:8px}
+#pft{min-width:760px}.edit input[type=checkbox]{width:22px;height:22px}
+@media(max-width:760px){aside{overflow-x:auto}aside a,aside button{white-space:nowrap;width:auto;flex:1 0 auto}}
+#vt{display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:8px;z-index:9;gap:4px;padding:3px;background:var(--navy3);border:1px solid var(--line);border-radius:999px;opacity:.3;transition:opacity .2s}
+body.v:not(.lo) #vt{display:flex}
+#vt:hover,#vt:focus-within{opacity:1}
+#vt a{color:var(--ice);text-decoration:none;font-size:13px;font-weight:700;padding:6px 14px;border-radius:999px}
+#vt a.on{background:var(--blue);color:var(--navy)}
+#vt a:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
 </style>
 </head>
 <body class="lo">
@@ -143,13 +171,16 @@ body.lo aside,body.lo #main,body.lo #exitTv{display:none!important}
 </div>
 <aside>
   <div class="lo"><b>Azul</b><svg class="br" aria-hidden="true"><use href="#brmap" width="100%" height="100%"/></svg><span>Logística</span></div>
-  <a href="#monitoramento" id="nM">Monitoramento (TV)</a>
-  <a href="#preenchimento" id="nP">Preenchimento</a>
+  <a href="#monitoramento" id="n-monitoramento">Monitoramento (TV)</a>
+  <a href="#performance" id="n-performance">Performance</a>
+  <a href="#preenchimento" id="n-preenchimento">Preenchimento</a>
+  <a href="#preenchimento-performance" id="n-preenchimento-performance">Preench. Performance</a>
   <div class="sp"></div>
   <button id="tvBtn">Tela cheia (modo TV)</button>
   <button id="outBtn">Sair</button>
 </aside>
 <button id="exitTv" title="Sair do modo TV" aria-label="Sair do modo TV">✕</button>
+<nav id="vt" aria-label="Telas"><a href="#monitoramento" id="vt-m">Monitoramento</a><a href="#performance" id="vt-p">Performance</a><a href="#all" id="vt-a">ALL</a></nav>
 
 <div id="main">
   <div id="fl"><div id="flp" class="hide"><div id="flg"></div><div class="fa"><label class="ck"><input type="checkbox" id="auto" checked> Rolagem automática</label><button id="flc">Limpar filtros</button></div></div><button id="flb" aria-expanded="false">Filtros</button></div>
@@ -179,6 +210,26 @@ body.lo aside,body.lo #main,body.lo #exitTv{display:none!important}
     </div>
   </div>
 
+  <div id="vPf" class="hide"><div id="pfw"><div class="pg" id="pfs">
+      <header>
+        <div class="brand"><span class="az">Azul</span><svg class="br" aria-hidden="true"><use href="#brmap" width="100%" height="100%"/></svg><span class="lg">Logística</span></div>
+        <div class="title"><b>Performance · <span id="pfWeek">—</span></b><span id="pfSub"></span></div>
+        <div class="clock"><b id="hora3">--:--</b><span id="data3"></span></div>
+      </header>
+      <main class="g2" id="pfMain"></main>
+      <section class="panel pfa" id="pfAtt"></section>
+    </div></div></div>
+  <div id="vPe" class="edit hide">
+    <div class="bar"><h1>Preenchimento Performance</h1><span class="st" id="stp"></span></div>
+    <p class="nota">Lance o percentual de cada dia, por indicador (M.M. ou E.2.E) e por cliente. Se não houve operação no dia, marque &ldquo;Sem operação&rdquo;. Tudo é salvo sozinho e já aparece na aba Performance.</p>
+    <section class="ec"><div class="eh"><h3>Semana e meta</h3></div>
+      <div class="sets"><label>Semana (ex.: W48)<input id="pfWeekIn" autocomplete="off"></label><label>Meta (%)<input id="pfMeta" inputmode="decimal" autocomplete="off"></label></div></section>
+    <section class="ec"><div class="eh"><h3>Lançamentos</h3><span id="pfc"></span></div>
+      <table id="pft"></table><datalist id="pfdl"></datalist>
+      <div class="ea"><button id="pfadd" type="button">+ Linha</button></div></section>
+    <section class="ec"><div class="eh"><h3>Pontos de atenção</h3></div>
+      <div id="pfa"></div><div class="ea"><button id="pfaadd" type="button">+ Ponto de atenção</button></div></section>
+  </div>
   <div id="vEd" class="edit hide">
     <div class="bar"><h1>Preenchimento</h1><span class="st" id="st"></span></div>
     <section class="ec">
@@ -236,6 +287,11 @@ const RD={
   reass:{acao:"Reassigned",origem:"VCP",sla:"hoje+1"}};
 const cl=o=>JSON.parse(JSON.stringify(o));
 let S={ref:todayISO(),fmt:"auto",at:0},RULES=cl(RD),RECS=[],F={produto:"",sla:"",acao:"",base:"",origem:"",desc:""},dirty=false,db=null,tmr=null;
+const PD={week:"W48",meta:"98",rows:[
+ {d:"2026-11-22",m:"MM",c:"AZL",p:"97,21",s:false},{d:"2026-11-22",m:"MM",c:"AMZ",p:"95,64",s:false},
+ {d:"2026-11-23",m:"MM",c:"AZL",p:"99,74",s:false},{d:"2026-11-23",m:"MM",c:"AMZ",p:"97,93",s:false},
+ {d:"2026-11-22",m:"E2E",c:"AZL",p:"",s:true},{d:"2026-11-22",m:"E2E",c:"AMZ",p:"",s:true}],att:[]};
+let PERF=cl(PD);
 const mergeRules=r=>{const o=cl(RD);BLK.forEach(([k])=>{o[k]=Object.assign({},o[k],r&&r[k]||{})});return o};
 
 /* ---------- leitura da planilha colada ---------- */
@@ -311,11 +367,11 @@ function render(){
   $("p1").innerHTML=rowsHtml(g1);$("p2").innerHTML=rowsHtml(g2);
   const m=Math.max(...top.map(x=>x.a+x.b),1);
   $("p3").innerHTML=top.length?top.map(x=>`<div class="r"><div class="top"><span class="nm">${esc(x.n)}</span><span class="vl">${f(x.a+x.b)}</span></div><div class="track"><i style="width:${x.a/m*100}%;background:var(--blue)"></i><i style="width:${x.b/m*100}%;background:var(--ice)"></i></div></div>`).join(""):'<div class="empty">Sem volumes</div>';
-  $("sum").textContent=RECS.length?`Totais calculados: D1 ${f(t1)} · D2 ${f(t2)} · Unitizados ${f(ua+ub)} · Em outras bases ${f(sOut)} · Pendências ${f(tP)} · MSCA ${f(tM)} · Reassinado ${f(sR)}. Compare com a sua aba Dinâmica Azl.`:"";
+  $("sum").textContent=RECS.length?`Totais calculados: D1 ${f(t1)} · D2 ${f(t2)} · Unitizados ${f(ua+ub)} · Em outras bases ${f(sOut)} · Pendências ${f(tP)} · MSCA ${f(tM)} · Reassinado ${f(sR)}. Compare com a sua aba Dinâmica Azl.`:"";renderPf();
 }
-function tick(){const d=new Date(),hm=d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});$("hora").textContent=$("hora2").textContent=hm;
-  $("data").textContent=d.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"})}
-function fit(){const w=$("vTv"),s=Math.min(w.clientWidth/1920,w.clientHeight/1080);if(!s)return;window.SC=s;$("pages").style.transform=`scale(${s})`;$("pgw").style.width=1920*s+"px";$("pgw").style.height=2160*s+"px"}
+function tick(){const d=new Date(),hm=d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});$("hora").textContent=$("hora2").textContent=$("hora3").textContent=hm;
+  $("data").textContent=d.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"});$("data3").textContent=$("data").textContent}
+function fit(){fitPf();const w=$("vTv"),s=Math.min(w.clientWidth/1920,w.clientHeight/1080);if(!s)return;window.SC=s;$("pages").style.transform=`scale(${s})`;$("pgw").style.width=1920*s+"px";$("pgw").style.height=2160*s+"px"}
 new ResizeObserver(fit).observe($("vTv"));
 
 /* ---------- Preenchimento ---------- */
@@ -325,7 +381,7 @@ function rulesUI(){
   const vals=x=>[...new Set(RECS.map(r=>x==="voo"?r.voo:x==="desc"?r.desc:r[x]).filter(Boolean))].sort();
   $("dls").innerHTML=FLD.map(x=>`<datalist id="dl-${x}">${(DATEF.has(x)?["hoje","hoje+1","hoje+2","(vazio)"]:["(vazio)"].concat(vals(x).slice(0,80))).map(v=>`<option value="${esc(v)}">`).join("")}</datalist>`).join("");
   $("vals").innerHTML=RECS.length?["desc","acao","class","produto"].map(x=>`<b>${FL[x]}:</b> ${esc(vals(x).slice(0,30).join(" · "))}`).join("<br>"):"";
-  $("ref").value=S.ref;$("dfmt").value=S.fmt;chipsUI();
+  $("ref").value=S.ref;$("dfmt").value=S.fmt;chipsUI();perfUI();
 }
 const later=()=>{dirty=true;$("st").textContent="Salvando…";clearTimeout(tmr);tmr=setTimeout(save,900)};
 document.addEventListener("input",e=>{const t=e.target;
@@ -342,6 +398,77 @@ function go(text){$("st").textContent="Processando…";setTimeout(()=>{
   render();rulesUI();later()},30)}
 $("paste").addEventListener("paste",e=>{e.preventDefault();go((e.clipboardData||window.clipboardData).getData("text"))});
 $("paste").addEventListener("input",e=>{const t=e.target.value;if(t){e.target.value="";go(t)}});
+
+/* ---------- Performance ---------- */
+const PAL=["#2BA3DC","#F28C28","#B07CFF","#E05C9B","#7BC043","#FFD93B"];
+const num=v=>{const n=parseFloat(String(v??"").replace(",","."));return isNaN(n)?null:n};
+const fp=n=>n.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})+"%";
+const dl=i=>i.slice(8)+"/"+i.slice(5,7);
+const wd=i=>new Date(i+"T12:00:00").toLocaleDateString("pt-BR",{weekday:"short"}).replace(".","");
+const cn=r=>(r.c||"").trim()||"—";
+const avg=a=>a.length?a.reduce((s,q)=>s+q,0)/a.length:null;
+function fitPf(){const w=$("vPf"),s=Math.min(w.clientWidth/1920,w.clientHeight/1080);if(!s)return;$("pfs").style.transform=`scale(${s})`;$("pfw").style.width=1920*s+"px";$("pfw").style.height=1080*s+"px"}
+new ResizeObserver(fitPf).observe($("vPf"));
+function chart(rr,cs,dates,col,meta){
+  const W=840,H=250,pl=54,pr=14,pt=16,pb=34,n=dates.length||1,bw=(W-pl-pr)/n;
+  const series=cs.map(c=>({c,p:dates.map(d=>avg(rr.filter(r=>cn(r)===c&&r.d===d&&!r.s).map(r=>num(r.p)).filter(v=>v!=null)))}));
+  const vals=series.flatMap(x=>x.p).filter(v=>v!=null);
+  if(!vals.length)return'<div class="empty">Sem percentuais no período</div>';
+  let lo=Math.floor(Math.min(...vals,meta)-1),hi=Math.min(100,Math.ceil(Math.max(...vals,meta)+.5));if(hi<=lo)hi=lo+1;
+  const X=i=>pl+(i+.5)*bw,Y=v=>pt+(hi-v)/(hi-lo)*(H-pt-pb);let g="";
+  for(let k=0;k<=3;k++){const v=lo+(hi-lo)*k/3,y=Y(v);g+=`<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="#1d4a80"/><text x="${pl-8}" y="${y+5}" text-anchor="end" fill="#CFEAF8" font-size="15">${Math.round(v)}%</text>`}
+  g+=dates.map((d,i)=>`<text x="${X(i)}" y="${H-8}" text-anchor="middle" fill="#CFEAF8" font-size="15">${dl(d)}</text>`).join("");
+  g+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(meta)}" y2="${Y(meta)}" stroke="#fff" stroke-opacity=".75" stroke-dasharray="7 6" stroke-width="2"/><text x="${W-pr}" y="${Y(meta)-6}" text-anchor="end" fill="#fff" font-size="14">Meta ${fp(meta)}</text>`;
+  series.forEach(x=>{const pts=x.p.map((v,i)=>v==null?null:[X(i),Y(v)]).filter(Boolean),c=col[x.c];
+    if(pts.length>1)g+=`<polyline points="${pts.map(q=>q.join(",")).join(" ")}" fill="none" stroke="${c}" stroke-width="4" stroke-linejoin="round"/>`;
+    g+=pts.map(q=>`<circle cx="${q[0]}" cy="${q[1]}" r="6" fill="${c}"/>`).join("")});
+  return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Evolução do percentual por dia">${g}</svg>`}
+function renderPf(){
+  const meta=num(PERF.meta)??98,R=PERF.rows.filter(r=>r.d);
+  let dates=[...new Set(R.map(r=>r.d))].sort();if(dates.length>8)dates=dates.slice(-8);
+  const cc=[...new Set(R.map(cn))],col=Object.fromEntries(cc.map((c,i)=>[c,PAL[i%PAL.length]])),st=v=>v>=meta?"ok":v>=meta-3?"warn":"bad";
+  const nd=dates.length||1,tf=nd<=3?30:nd<=5?24:18,gt=`grid-template-columns:110px repeat(${nd},1fr) 130px;--tf:${tf}px`;
+  $("pfWeek").textContent=PERF.week||"—";
+  $("pfSub").textContent=(dates.length?dl(dates[0])+" a "+dl(dates[dates.length-1]):"Sem lançamentos")+" · Meta "+fp(meta);
+  const block=(m,title)=>{
+    const rr=R.filter(r=>r.m===m&&dates.includes(r.d)),cs=[...new Set(rr.map(cn))];
+    const head=`<div class="pfg" style="${gt}"><span></span>${dates.map(d=>`<div class="pfd">${dl(d)}<small>${wd(d)}</small></div>`).join("")}<div class="pfd">Média</div></div>`;
+    const rows=cs.map(c=>{const all=[],cells=dates.map(d=>{const x=rr.filter(r=>cn(r)===c&&r.d===d);if(!x.length)return`<div class="pt nd">—</div>`;
+        const a=avg(x.filter(r=>!r.s).map(r=>num(r.p)).filter(v=>v!=null));
+        if(a==null)return x.some(r=>r.s)?`<div class="pt so">${nd>5?"S/ op.":"Sem operação"}</div>`:`<div class="pt nd">—</div>`;
+        all.push(a);return`<div class="pt ${st(a)}">${fp(a)}</div>`}).join(""),av=avg(all);
+      return`<div class="pfg" style="${gt}"><div class="pfc"><i class="dot" style="background:${col[c]}"></i>${esc(c)}</div>${cells}<div class="pfv ${av==null?"":st(av)}">${av==null?"—":fp(av)}</div></div>`}).join("");
+    return`<section class="panel pfp"><div class="pfh"><h2>${title}</h2><span>${esc(PERF.week||"")}</span></div>${cs.length?head+rows+`<div class="chart">${chart(rr,cs,dates,col,meta)}</div>`:'<div class="empty">Sem lançamentos</div>'}</section>`};
+  $("pfMain").innerHTML=block("MM","M.M.")+block("E2E","E.2.E");
+  const ord={Alta:0,"Média":1,Baixa:2},att=PERF.att.filter(a=>a.t&&a.t.trim()).sort((a,b)=>ord[a.p]-ord[b.p]);
+  $("pfAtt").innerHTML=`<div class="pfh"><h2>Pontos de atenção${att.length?" · "+att.length:""}</h2><span class="lgd"><i style="background:var(--ok)"></i>Meta atingida<i style="background:var(--warn)"></i>Até 3 pts abaixo<i style="background:var(--bad)"></i>Abaixo da meta</span></div>`+
+    (att.length?`<div class="al">${att.slice(0,6).map(a=>`<div class="ai"><span class="tag ${a.p==="Alta"?"a":a.p==="Baixa"?"b":"m"}">${esc(a.p)}</span><span>${esc(a.t)}</span></div>`).join("")}</div>${att.length>6?`<div class="ds">+${att.length-6} ponto(s) não exibido(s)</div>`:""}`:'<div class="empty">Sem pontos de atenção</div>');
+}
+function perfUI(){
+  $("pfWeekIn").value=PERF.week||"";$("pfMeta").value=PERF.meta??"";
+  $("pfdl").innerHTML=[...new Set(["AZL","AMZ"].concat(PERF.rows.map(r=>(r.c||"").trim()).filter(Boolean)))].map(c=>`<option value="${esc(c)}">`).join("");
+  $("pft").innerHTML="<thead><tr><th>Data</th><th>Indicador</th><th>Cliente</th><th>Percentual (%)</th><th>Sem operação</th><th></th></tr></thead><tbody>"+PERF.rows.map((r,i)=>`<tr>
+    <td><input type="date" data-pr="${i}" data-pf="d" value="${esc(r.d)}" aria-label="Data"></td>
+    <td><select data-pr="${i}" data-pf="m" aria-label="Indicador"><option value="MM"${r.m==="MM"?" selected":""}>M.M.</option><option value="E2E"${r.m==="E2E"?" selected":""}>E.2.E</option></select></td>
+    <td><input list="pfdl" data-pr="${i}" data-pf="c" value="${esc(r.c)}" aria-label="Cliente" autocomplete="off"></td>
+    <td><input inputmode="decimal" data-pr="${i}" data-pf="p" value="${esc(r.p)}" placeholder="97,21" aria-label="Percentual"${r.s?" disabled":""}></td>
+    <td><input type="checkbox" data-pr="${i}" data-pf="s" aria-label="Sem operação"${r.s?" checked":""}></td>
+    <td><button class="x" type="button" data-pdel="${i}" aria-label="Remover linha">×</button></td></tr>`).join("")+"</tbody>";
+  $("pfa").innerHTML=PERF.att.map((a,i)=>`<div class="ar"><select data-pa="${i}" data-pf="p" aria-label="Prioridade">${["Alta","Média","Baixa"].map(o=>`<option${a.p===o?" selected":""}>${o}</option>`).join("")}</select><input data-pa="${i}" data-pf="t" value="${esc(a.t)}" placeholder="Descreva o ponto de atenção" aria-label="Ponto de atenção" autocomplete="off"><button class="x" type="button" data-padel="${i}" aria-label="Remover ponto">×</button></div>`).join("");
+  $("pfc").textContent=PERF.rows.length+" lançamentos";
+}
+const perfIn=e=>{const t=e.target;
+  if(t.dataset.pr!==undefined){const r=PERF.rows[+t.dataset.pr],k=t.dataset.pf;if(!r)return;r[k]=k==="s"?t.checked:t.value;if(k==="s")perfUI();renderPf();later()}
+  else if(t.dataset.pa!==undefined){const a=PERF.att[+t.dataset.pa];if(!a)return;a[t.dataset.pf]=t.value;renderPf();later()}
+  else if(t.id==="pfWeekIn"){PERF.week=t.value;renderPf();later()}
+  else if(t.id==="pfMeta"){PERF.meta=t.value;renderPf();later()}};
+document.addEventListener("input",perfIn);document.addEventListener("change",perfIn);
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.id==="pfadd"){const l=PERF.rows[PERF.rows.length-1]||{};PERF.rows.push({d:l.d||todayISO(),m:l.m||"MM",c:"",p:"",s:false});perfUI();renderPf();later()}
+  else if(b.id==="pfaadd"){PERF.att.push({t:"",p:"Alta"});perfUI();later()}
+  else if(b.dataset.pdel!==undefined){PERF.rows.splice(+b.dataset.pdel,1);perfUI();renderPf();later()}
+  else if(b.dataset.padel!==undefined){PERF.att.splice(+b.dataset.padel,1);perfUI();renderPf();later()}});
+new MutationObserver(()=>{$("stp").textContent=$("st").textContent}).observe($("st"),{childList:true,characterData:true,subtree:true});
 
 /* ---------- conferência dos filtros ---------- */
 let CB="d1";
@@ -368,12 +495,12 @@ async function ungz(b64){const bin=atob(b64),u=new Uint8Array(bin.length);for(le
 async function save(){
   const json=JSON.stringify(RECS.map(r=>[r.voo,r.dest,r.produto,r.sla,r.acao,r.base,r.origem,r.desc,r.class,r.dtvoo,r.qtd]));
   let enc="none",data=json;if(window.CompressionStream){try{data=await gz(json);enc="gz"}catch(e){}}
-  S.at=Date.now();const P=JSON.stringify({S,RULES,enc,data,at:S.at}),ok=[];
+  S.at=Date.now();const P=JSON.stringify({S,RULES,PERF,enc,data,at:S.at}),ok=[];
   try{localStorage.setItem("azul_monitor2",P);ok.push("neste navegador")}catch(e){}
   if(db){try{await db.doc("monitor/atual").set({json:P,at:S.at});ok.push("para todos")}catch(e){}}
   dirty=false;render();
   $("st").textContent=ok.length?`Salvo (${ok.join(" e ")}) às ${hhmm(S.at)}`:"Não foi possível salvar: o arquivo ficou grande demais para o navegador."}
-async function apply(str){try{const p=JSON.parse(str);S=Object.assign(S,p.S||{});S.at=p.at||S.at;RULES=mergeRules(p.RULES);
+async function apply(str){try{const p=JSON.parse(str);S=Object.assign(S,p.S||{});S.at=p.at||S.at;RULES=mergeRules(p.RULES);if(p.PERF&&Array.isArray(p.PERF.rows))PERF=Object.assign(cl(PD),p.PERF);
   const arr=JSON.parse(p.enc==="gz"?await ungz(p.data):p.data);
   RECS=arr.map(a=>({voo:a[0],dest:a[1],produto:a[2],sla:a[3],acao:a[4],base:a[5],origem:a[6],desc:a[7],class:a[8],dtvoo:a[9],qtd:a[10]}));return true}catch(e){return false}}
 
@@ -388,9 +515,27 @@ let at=null;function setAuto(on){clearInterval(at);at=null;if(on)at=setInterval(
 $("auto").onchange=e=>setAuto(e.target.checked);setAuto(true);
 
 /* ---------- Menu / modo TV ---------- */
-function show(){const ed=ROLE==="admin"&&location.hash==="#preenchimento";
-  $("vTv").classList.toggle("hide",ed);$("vEd").classList.toggle("hide",!ed);
-  $("nM").classList.toggle("on",!ed);$("nP").classList.toggle("on",ed);$("tvBtn").classList.toggle("hide",ed);$("fl").classList.toggle("hide",ed);if(!ed)fit()}
+let AI=0,at2=null;const ALL_MS=20000;
+function vtOn(r){$("vt-m").classList.toggle("on",r==="monitoramento");$("vt-p").classList.toggle("on",r==="performance");$("vt-a").classList.toggle("on",r==="all");if(r!=="all")$("vt-a").textContent="ALL"}
+function allStep(){const k=AI%3,w=$("vTv");
+  w.classList.toggle("hide",k===2);$("vPf").classList.toggle("hide",k!==2);
+  if(k===2)fitPf();else{fit();w.scrollTop=k?1080*(window.SC||1):0}
+  $("vt-a").textContent="ALL · "+(k+1)+"/3"}
+function allStart(){clearInterval(at2);AI=0;allStep();at2=setInterval(()=>{AI++;allStep()},ALL_MS)}
+function allStop(){clearInterval(at2);at2=null}
+function allShow(){$("vEd").classList.add("hide");$("vPe").classList.add("hide");ROUTES.forEach(k=>$("n-"+k).classList.remove("on"));
+  $("tvBtn").classList.remove("hide");$("fl").classList.add("hide");vtOn("all");setAuto(false);if(!at2)allStart()}
+const ROUTES=["monitoramento","performance","preenchimento","preenchimento-performance"];
+function route(){const h=(location.hash||"").slice(1),ok=ROLE==="admin"?ROUTES.concat("all"):ROLE==="viewer"?["monitoramento","performance","all"]:[];return ok.includes(h)?h:"monitoramento"}
+function show(){const r=route();
+  if(ROLE==="viewer")try{localStorage.setItem("azul_vtab","#"+r)}catch(e){}
+  if(r==="all"){allShow();return}
+  if(at2){allStop();setAuto($("auto").checked)}
+  $("vTv").classList.toggle("hide",r!=="monitoramento");$("vPf").classList.toggle("hide",r!=="performance");
+  $("vEd").classList.toggle("hide",r!=="preenchimento");$("vPe").classList.toggle("hide",r!=="preenchimento-performance");
+  ROUTES.forEach(k=>$("n-"+k).classList.toggle("on",k===r));
+  $("tvBtn").classList.toggle("hide",!(r==="monitoramento"||r==="performance"));$("fl").classList.toggle("hide",r!=="monitoramento");
+  vtOn(r);if(r==="monitoramento")fit();if(r==="performance")fitPf()}
 addEventListener("hashchange",show);
 $("tvBtn").onclick=()=>{document.body.classList.add("tv");try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}setTimeout(fit,100)};
 function exitTv(){if(ROLE==="viewer")return;document.body.classList.remove("tv");if(document.fullscreenElement)document.exitFullscreen();setTimeout(fit,100)}
@@ -404,9 +549,11 @@ function applyRole(r,gesture){
   ROLE=r;const b=document.body,x=$("exitTv");
   try{sessionStorage.removeItem("azul_role");localStorage.removeItem("azul_role_v");if(r==="admin")sessionStorage.setItem("azul_role","admin");if(r==="viewer")localStorage.setItem("azul_role_v","1")}catch(e){}
   b.classList.remove("lo","v","tv");
-  if(!r){b.classList.add("lo");if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});$("lu").value="";$("lp").value="";$("le").textContent="";setTimeout(()=>$("lu").focus(),50);return}
+  if(!r){allStop();b.classList.add("lo");if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});$("lu").value="";$("lp").value="";$("le").textContent="";setTimeout(()=>$("lu").focus(),50);return}
   const t=r==="viewer"?"Voltar ao login":"Sair do modo TV";x.setAttribute("title",t);x.setAttribute("aria-label",t);
-  if(location.hash!=="#monitoramento")location.hash="#monitoramento";
+  let want="#monitoramento";
+  if(r==="viewer"&&!gesture){let lt="";try{lt=localStorage.getItem("azul_vtab")||""}catch(e){}if(["#monitoramento","#performance","#all"].includes(lt))want=lt}
+  if(location.hash!==want)location.hash=want;
   if(r==="viewer"){b.classList.add("v","tv");if(gesture){try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}}
   show();setTimeout(fit,100)}
 const doLogin=()=>{const u=norm($("lu").value),p=$("lp").value;
@@ -417,7 +564,7 @@ $("lv").onclick=()=>applyRole("viewer",true);
 $("outBtn").onclick=()=>applyRole(null);
 $("eye").onclick=()=>{const p=$("lp"),s=p.type==="password";p.type=s?"text":"password";$("eye").textContent=s?"Ocultar":"Mostrar";$("eye").setAttribute("aria-pressed",s)};
 $("exitTv").onclick=()=>{ROLE==="viewer"?applyRole(null):exitTv()};
-addEventListener("hashchange",()=>{if(ROLE!=="admin"&&location.hash==="#preenchimento")location.hash="#monitoramento"});
+addEventListener("hashchange",()=>{const h=location.hash;if(ROLE!=="admin"&&h!=="#monitoramento"&&!(ROLE==="viewer"&&(h==="#performance"||h==="#all")))location.hash="#monitoramento"});
 if(!location.hash)location.hash="#monitoramento";
 let r0=null;try{r0=sessionStorage.getItem("azul_role")==="admin"?"admin":(localStorage.getItem("azul_role_v")?"viewer":null)}catch(e){}
 applyRole(r0,false);
